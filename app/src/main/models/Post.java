@@ -9,8 +9,15 @@ public class Post {
   private String exerciseDistance = "운동 거리";
   private String description = "상세 설명";
 
-  public Post() {
-
+  public Post(String writer, String title, String date, String exerciseType,
+              String exerciseTime, String exerciseDistance, String description) {
+    this.writer = writer;
+    this.title = title;
+    this.date = date;
+    this.exerciseType = exerciseType;
+    this.exerciseTime = exerciseTime;
+    this.exerciseDistance = exerciseDistance;
+    this.description = description;
   }
 
   public String writer() {
