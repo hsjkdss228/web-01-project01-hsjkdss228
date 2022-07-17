@@ -1,4 +1,4 @@
-package panels;
+package frames;
 
 import models.ExercisePlanPost;
 
@@ -10,9 +10,6 @@ public class ExercisePlanPostsFrame extends JFrame {
     this.setSize(500, 500);
     this.setLocation(700, 70);
     this.setLayout(new GridLayout(0, 1));
-
-    JLabel writerTextField = new JLabel(exercisePlanPost.writer());
-    this.add(writerTextField);
 
     JLabel titleLabel = new JLabel(exercisePlanPost.title());
     this.add(titleLabel);
@@ -26,11 +23,16 @@ public class ExercisePlanPostsFrame extends JFrame {
     JLabel exerciseTimeLabel = new JLabel(exercisePlanPost.exerciseTime());
     this.add(exerciseTimeLabel);
 
+    JLabel stopoverPointsLabel = new JLabel(exercisePlanPost.stopoverPoints());
+    this.add(stopoverPointsLabel);
+
     JLabel exerciseDistanceLabel = new JLabel(exercisePlanPost.exerciseDistance());
     this.add(exerciseDistanceLabel);
 
     JTextArea descriptionTextArea = new JTextArea(exercisePlanPost.description());
     descriptionTextArea.setEditable(false);
     this.add(descriptionTextArea);
+
+    this.setVisible(true);
   }
 }
