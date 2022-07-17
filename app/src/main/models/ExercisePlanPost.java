@@ -1,6 +1,8 @@
 package models;
 
 public class ExercisePlanPost {
+  private boolean deleted;
+
   private String title = "제목";
   private String date = "운동한 날짜";
   private String exerciseType = "유산소 운동 종류";
@@ -10,11 +12,13 @@ public class ExercisePlanPost {
   private String description = "상세 설명";
 
   public ExercisePlanPost() {
-
+    this.deleted = false;
   }
 
   public ExercisePlanPost(String title, String date, String exerciseType, String exerciseTime,
                           String stopoverPoints, String exerciseDistance, String description) {
+    this.deleted = false;
+
     this.title = title;
     this.date = date;
     this.exerciseType = exerciseType;
@@ -24,6 +28,23 @@ public class ExercisePlanPost {
     this.description = description;
   }
 
+  public ExercisePlanPost(boolean deleted, String title, String date, String exerciseType,
+                          String exerciseTime, String stopoverPoints, String exerciseDistance,
+                          String description) {
+    this.deleted = deleted;
+
+    this.title = title;
+    this.date = date;
+    this.exerciseType = exerciseType;
+    this.exerciseTime = exerciseTime;
+    this.stopoverPoints = stopoverPoints;
+    this.exerciseDistance = exerciseDistance;
+    this.description = description;
+  }
+
+  public boolean deleted() {
+    return deleted;
+  }
 
   public String title() {
     return title;

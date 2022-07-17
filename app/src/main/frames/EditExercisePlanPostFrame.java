@@ -6,51 +6,111 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
-public class CreateExercisePlanPostFrame extends JFrame {
-  public CreateExercisePlanPostFrame(List<ExercisePlanPost> exercisePlanPosts) {
+public class EditExercisePlanPostFrame extends JFrame {
+  public static final int CREATION = 1;
+  public static final int MODIFICATION = 2;
+
+  List<ExercisePlanPost> exercisePlanPosts;
+
+  private JTextField titleTextField;
+  private JTextField dateTextField;
+  private JTextField exerciseTypeTextField;
+  private JTextField exerciseTimeTextField;
+  private JTextField stopoverPointsTextField;
+  private JTextField exerciseDistanceTextField;
+  private JTextArea descriptionTextArea;
+
+  public EditExercisePlanPostFrame(List<ExercisePlanPost> exercisePlanPosts, int mode) {
+    this.exercisePlanPosts = exercisePlanPosts;
+
     this.setSize(500, 500);
     this.setLocation(200, 150);
     this.setLayout(new GridLayout(0, 1));
 
+    createTitlePanel("");
+    createDatePanel("");
+    createExerciseTypePanel("");
+    createExerciseTimePanel("");
+    createStopoverPointPanel("");
+    createDistancePanel("");
+    createDescriptionPanel("");
+    createButtonsPanel();
+
+    this.setVisible(true);
+  }
+
+  public EditExercisePlanPostFrame(
+      List<ExercisePlanPost> exercisePlanPosts, ExercisePlanPost exercisePlanPost, int mode) {
+    this.exercisePlanPosts = exercisePlanPosts;
+
+    this.setSize(500, 500);
+    this.setLocation(200, 150);
+    this.setLayout(new GridLayout(0, 1));
+
+    createTitlePanel(exercisePlanPost.title());
+    createDatePanel(exercisePlanPost.date());
+    createExerciseTypePanel(exercisePlanPost.exerciseType());
+    createExerciseTimePanel(exercisePlanPost.exerciseTime());
+    createStopoverPointPanel(exercisePlanPost.stopoverPoints());
+    createDistancePanel(exercisePlanPost.exerciseDistance());
+    createDescriptionPanel(exercisePlanPost.description());
+    createButtonsPanel();
+
+    this.setVisible(true);
+  }
+
+  public void createTitlePanel(String text) {
     JPanel titlePanel = new JPanel();
     titlePanel.add(new JLabel("제목: "));
-    JTextField titleTextField = new JTextField(15);
+    titleTextField = new JTextField(text, 15);
     titlePanel.add(titleTextField);
     this.add(titlePanel);
+  }
 
+  public void createDatePanel(String text) {
     JPanel datePanel = new JPanel();
     datePanel.add(new JLabel("날짜: "));
-    JTextField dateTextField = new JTextField(15);
+    dateTextField = new JTextField(text, 15);
     datePanel.add(dateTextField);
     this.add(datePanel);
+  }
 
+  public void createExerciseTypePanel(String text) {
     JPanel exerciseTypePanel = new JPanel();
     exerciseTypePanel.add(new JLabel("운동 종류: "));
-    JTextField exerciseTypeTextField = new JTextField(15);
+    exerciseTypeTextField = new JTextField(text, 15);
     exerciseTypePanel.add(exerciseTypeTextField);
     this.add(exerciseTypePanel);
+  }
 
+  public void createExerciseTimePanel(String text) {
     JPanel exerciseTimePanel = new JPanel();
     exerciseTimePanel.add(new JLabel("목표 운동 시간: "));
-    JTextField exerciseTimeTextField = new JTextField(15);
+    exerciseTimeTextField = new JTextField(text, 15);
     exerciseTimePanel.add(exerciseTimeTextField);
     this.add(exerciseTimePanel);
+  }
 
+  public void createStopoverPointPanel(String text) {
     JPanel stopoverPointsPanel = new JPanel();
     stopoverPointsPanel.add(new JLabel("목표 경유 장소: "));
-    JTextField stopoverPointsTextField = new JTextField(15);
+    stopoverPointsTextField = new JTextField(text, 15);
     stopoverPointsPanel.add(stopoverPointsTextField);
     this.add(stopoverPointsPanel);
+  }
 
+  public void createDistancePanel(String text) {
     JPanel exerciseDistancePanel = new JPanel();
     exerciseDistancePanel.add(new JLabel("목표 운동 거리: "));
-    JTextField exerciseDistanceTextField = new JTextField(15);
+    exerciseDistanceTextField = new JTextField(text, 15);
     exerciseDistancePanel.add(exerciseDistanceTextField);
     this.add(exerciseDistancePanel);
+  }
 
+  public void createDescriptionPanel(String text) {
     JPanel descriptionPanel = new JPanel();
     descriptionPanel.add(new JLabel("상세 설명: "));
-    JTextArea descriptionTextArea = new JTextArea();
+    descriptionTextArea = new JTextArea(text);
     descriptionTextArea.setColumns(20);
     descriptionTextArea.setRows(3);
     descriptionTextArea.setLineWrap(true);
@@ -59,7 +119,9 @@ public class CreateExercisePlanPostFrame extends JFrame {
     scrollPane.createVerticalScrollBar();
     descriptionPanel.add(scrollPane);
     this.add(descriptionPanel);
+  }
 
+  public void createButtonsPanel() {
     JPanel buttonsPanel = new JPanel();
     buttonsPanel.setLayout(new BorderLayout());
     JButton cancelButton = new JButton("취소");
@@ -85,7 +147,5 @@ public class CreateExercisePlanPostFrame extends JFrame {
     });
     buttonsPanel.add(registerButton, BorderLayout.EAST);
     this.add(buttonsPanel);
-
-    this.setVisible(true);
   }
 }

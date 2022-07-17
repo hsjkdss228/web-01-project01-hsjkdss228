@@ -4,9 +4,11 @@ import models.ExercisePlanPost;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 public class ExercisePlanPostFrame extends JFrame {
-  public ExercisePlanPostFrame(ExercisePlanPost exercisePlanPost) {
+  public ExercisePlanPostFrame(
+      List<ExercisePlanPost> exercisePlanPosts, ExercisePlanPost exercisePlanPost) {
     this.setSize(500, 500);
     this.setLocation(700, 70);
     this.setLayout(new GridLayout(0, 1));
@@ -37,7 +39,9 @@ public class ExercisePlanPostFrame extends JFrame {
     buttonsPanel.setLayout(new GridLayout(1, 3));
     JButton modifyButton = new JButton("수정하기");
     modifyButton.addActionListener(event -> {
-
+      EditExercisePlanPostFrame editExercisePlanPostFrame = new EditExercisePlanPostFrame(
+          exercisePlanPosts, exercisePlanPost, EditExercisePlanPostFrame.MODIFICATION
+      );
     });
     buttonsPanel.add(modifyButton);
     JButton deleteButton = new JButton("삭제하기");

@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.util.List;
 
 public class MainFrame extends JFrame {
-  private JFrame createExercisePlanPostFrame;
+  private JFrame editExercisePlanPostFrame;
   private JFrame seeExercisePlanPostsFrame;
 
   public MainFrame(List<ExercisePlanPost> exercisePlanPosts) {
@@ -18,11 +18,13 @@ public class MainFrame extends JFrame {
     JPanel buttonsPanel = new JPanel();
     this.add(buttonsPanel);
 
-    JButton createExercisePlanPostButton = new JButton("운동 계획 작성");
-    createExercisePlanPostButton.addActionListener(event -> {
-      createExercisePlanPostFrame = new CreateExercisePlanPostFrame(exercisePlanPosts);
+    JButton editExercisePlanPostButton = new JButton("운동 계획 작성");
+    editExercisePlanPostButton.addActionListener(event -> {
+      editExercisePlanPostFrame = new EditExercisePlanPostFrame(
+          exercisePlanPosts, EditExercisePlanPostFrame.CREATION
+      );
     });
-    buttonsPanel.add(createExercisePlanPostButton);
+    buttonsPanel.add(editExercisePlanPostButton);
 
     JButton seeExercisePlanPostsButton = new JButton("운동 계획 보기");
     seeExercisePlanPostsButton.addActionListener(event -> {

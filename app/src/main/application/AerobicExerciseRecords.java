@@ -1,8 +1,6 @@
 package application;
 
-import frames.CreateExercisePlanPostFrame;
 import frames.MainFrame;
-import frames.SeeExercisePlanPostsFrame;
 import models.ExercisePlanPost;
 
 import javax.swing.*;

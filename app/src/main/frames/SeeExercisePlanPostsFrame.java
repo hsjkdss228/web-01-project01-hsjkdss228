@@ -22,7 +22,7 @@ public class SeeExercisePlanPostsFrame extends JFrame {
       titleThumbnailLabel.addMouseListener(new MouseAdapter() {
         @Override
         public void mouseClicked(MouseEvent e) {
-          JFrame postFrame = new ExercisePlanPostFrame(exercisePlanPost);
+          JFrame postFrame = new ExercisePlanPostFrame(exercisePlanPosts, exercisePlanPost);
 
           postFrame.setVisible(true);
         }
