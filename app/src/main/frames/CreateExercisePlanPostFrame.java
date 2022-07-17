@@ -64,12 +64,24 @@ public class CreateExercisePlanPostFrame extends JFrame {
     buttonsPanel.setLayout(new BorderLayout());
     JButton cancelButton = new JButton("취소");
     cancelButton.addActionListener(event -> {
-
+      this.dispose();
     });
     buttonsPanel.add(cancelButton, BorderLayout.WEST);
     JButton registerButton = new JButton("등록하기");
     registerButton.addActionListener(event -> {
+      ExercisePlanPost exercisePlanPost = new ExercisePlanPost(
+          titleTextField.getText(),
+          dateTextField.getText(),
+          exerciseTypeTextField.getText(),
+          exerciseTimeTextField.getText(),
+          stopoverPointsTextField.getText(),
+          exerciseDistanceTextField.getText(),
+          descriptionTextArea.getText()
+      );
 
+      exercisePlanPosts.add(exercisePlanPost);
+
+      this.dispose();
     });
     buttonsPanel.add(registerButton, BorderLayout.EAST);
     this.add(buttonsPanel);
