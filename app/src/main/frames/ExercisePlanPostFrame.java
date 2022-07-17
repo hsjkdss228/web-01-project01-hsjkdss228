@@ -5,8 +5,8 @@ import models.ExercisePlanPost;
 import javax.swing.*;
 import java.awt.*;
 
-public class ExercisePlanPostsFrame extends JFrame {
-  public ExercisePlanPostsFrame(ExercisePlanPost exercisePlanPost) {
+public class ExercisePlanPostFrame extends JFrame {
+  public ExercisePlanPostFrame(ExercisePlanPost exercisePlanPost) {
     this.setSize(500, 500);
     this.setLocation(700, 70);
     this.setLayout(new GridLayout(0, 1));
@@ -32,6 +32,25 @@ public class ExercisePlanPostsFrame extends JFrame {
     JTextArea descriptionTextArea = new JTextArea(exercisePlanPost.description());
     descriptionTextArea.setEditable(false);
     this.add(descriptionTextArea);
+
+    JPanel buttonsPanel = new JPanel();
+    buttonsPanel.setLayout(new GridLayout(1, 3));
+    JButton modifyButton = new JButton("수정하기");
+    modifyButton.addActionListener(event -> {
+
+    });
+    buttonsPanel.add(modifyButton);
+    JButton deleteButton = new JButton("삭제하기");
+    deleteButton.addActionListener(event -> {
+
+    });
+    buttonsPanel.add(deleteButton);
+    JButton reviewButton = new JButton("결과 기록하기");
+    reviewButton.addActionListener(event -> {
+
+    });
+    buttonsPanel.add(reviewButton);
+    this.add(buttonsPanel);
 
     this.setVisible(true);
   }
