@@ -1,6 +1,6 @@
 package models;
 
-public class Post {
+public class ExercisePlanPost {
   private String writer = "작성자명";
   private String title = "제목";
   private String date = "운동한 날짜";
@@ -9,12 +9,12 @@ public class Post {
   private String exerciseDistance = "운동 거리";
   private String description = "상세 설명";
 
-  public Post() {
+  public ExercisePlanPost() {
 
   }
 
-  public Post(String writer, String title, String date, String exerciseType,
-              String exerciseTime, String exerciseDistance, String description) {
+  public ExercisePlanPost(String writer, String title, String date, String exerciseType,
+                          String exerciseTime, String exerciseDistance, String description) {
     this.writer = writer;
     this.title = title;
     this.date = date;
