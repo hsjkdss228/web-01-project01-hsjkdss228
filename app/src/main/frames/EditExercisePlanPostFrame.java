@@ -34,7 +34,7 @@ public class EditExercisePlanPostFrame extends JFrame {
     createStopoverPointPanel("");
     createDistancePanel("");
     createDescriptionPanel("");
-    createButtonsPanel();
+    createButtonsPanel(mode, null);
 
     this.setVisible(true);
   }
@@ -54,7 +54,7 @@ public class EditExercisePlanPostFrame extends JFrame {
     createStopoverPointPanel(exercisePlanPost.stopoverPoints());
     createDistancePanel(exercisePlanPost.exerciseDistance());
     createDescriptionPanel(exercisePlanPost.description());
-    createButtonsPanel();
+    createButtonsPanel(mode, exercisePlanPost);
 
     this.setVisible(true);
   }
@@ -121,7 +121,7 @@ public class EditExercisePlanPostFrame extends JFrame {
     this.add(descriptionPanel);
   }
 
-  public void createButtonsPanel() {
+  public void createButtonsPanel(int mode, ExercisePlanPost toBeModified) {
     JPanel buttonsPanel = new JPanel();
     buttonsPanel.setLayout(new BorderLayout());
     JButton cancelButton = new JButton("취소");
@@ -131,17 +131,33 @@ public class EditExercisePlanPostFrame extends JFrame {
     buttonsPanel.add(cancelButton, BorderLayout.WEST);
     JButton registerButton = new JButton("등록하기");
     registerButton.addActionListener(event -> {
-      ExercisePlanPost exercisePlanPost = new ExercisePlanPost(
-          titleTextField.getText(),
-          dateTextField.getText(),
-          exerciseTypeTextField.getText(),
-          exerciseTimeTextField.getText(),
-          stopoverPointsTextField.getText(),
-          exerciseDistanceTextField.getText(),
-          descriptionTextArea.getText()
-      );
+      if (mode == EditExercisePlanPostFrame.CREATION) {
+        ExercisePlanPost exercisePlanPost = new ExercisePlanPost(
+            titleTextField.getText(),
+            dateTextField.getText(),
+            exerciseTypeTextField.getText(),
+            exerciseTimeTextField.getText(),
+            stopoverPointsTextField.getText(),
+            exerciseDistanceTextField.getText(),
+            descriptionTextArea.getText()
+        );
+        exercisePlanPosts.add(exercisePlanPost);
+      }
 
-      exercisePlanPosts.add(exercisePlanPost);
+      if (mode == EditExercisePlanPostFrame.MODIFICATION) {
+        for (ExercisePlanPost found : exercisePlanPosts) {
+          if (found.uniqueNumber() == toBeModified.uniqueNumber()) {
+            found.modifyTitle(titleTextField.getText());
+            found.modifyDate(dateTextField.getText());
+            found.modifyExerciseType(exerciseTypeTextField.getText());
+            found.modifyExerciseTime(exerciseTimeTextField.getText());
+            found.modifyStopoverPoints(stopoverPointsTextField.getText());
+            found.modifyExerciseDistance(exerciseDistanceTextField.getText());
+            found.modifyDescription(descriptionTextArea.getText());
+            break;
+          }
+        }
+      }
 
       this.dispose();
     });

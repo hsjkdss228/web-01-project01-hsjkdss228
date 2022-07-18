@@ -36,9 +36,12 @@ class ExercisePlanPostTest {
 
   @Test
   void creationWithParametersAndDeletedStatus() {
-    ExercisePlanPost exercisePlanPost1 = new ExercisePlanPost(true, "제목 123", "운동한 날짜 123", "유산소 운동 종류 123",
-        "운동한 시간 123", "경유지 1,경유지 2,경유지 3", "운동 거리 123", "상세 설명 123");
+    ExercisePlanPost exercisePlanPost1 = new ExercisePlanPost(
+        5, true, "제목 123", "운동한 날짜 123", "유산소 운동 종류 123",
+        "운동한 시간 123", "경유지 1,경유지 2,경유지 3", "운동 거리 123", "상세 설명 123"
+    );
 
+    assertEquals(5, exercisePlanPost1.uniqueNumber());
     assertTrue(exercisePlanPost1.deleted());
     assertEquals("제목 123", exercisePlanPost1.title());
     assertEquals("운동한 날짜 123", exercisePlanPost1.date());
@@ -48,9 +51,12 @@ class ExercisePlanPostTest {
     assertEquals("운동 거리 123", exercisePlanPost1.exerciseDistance());
     assertEquals("상세 설명 123", exercisePlanPost1.description());
 
-    ExercisePlanPost exercisePlanPost2 = new ExercisePlanPost(false, "제목 123", "운동한 날짜 123", "유산소 운동 종류 123",
-        "운동한 시간 123", "경유지 1,경유지 2,경유지 3", "운동 거리 123", "상세 설명 123");
+    ExercisePlanPost exercisePlanPost2 = new ExercisePlanPost(
+        12, false, "제목 123", "운동한 날짜 123", "유산소 운동 종류 123",
+        "운동한 시간 123", "경유지 1,경유지 2,경유지 3", "운동 거리 123", "상세 설명 123"
+    );
 
+    assertEquals(12, exercisePlanPost2.uniqueNumber());
     assertFalse(exercisePlanPost2.deleted());
   }
 }
