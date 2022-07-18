@@ -58,11 +58,13 @@ public class ExercisePlanPostFrame extends JFrame {
       this.dispose();
     });
     buttonsPanel.add(deleteButton);
-    JButton reviewButton = new JButton("결과 기록하기");
-    reviewButton.addActionListener(event -> {
+    JButton createExerciseRecordPostButton = new JButton("결과 기록하기");
+    createExerciseRecordPostButton.addActionListener(event -> {
+      EditExerciseRecordPostFrame editExerciseRecordPostFrame = new EditExerciseRecordPostFrame(
 
+      );
     });
-    buttonsPanel.add(reviewButton);
+    buttonsPanel.add(createExerciseRecordPostButton);
     this.add(buttonsPanel);
 
     this.setVisible(true);
