@@ -7,6 +7,10 @@ public class UniqueNumberManager {
     uniqueNumberCount = loadedUniqueNumberCount;
   }
 
+  public static int uniqueNumberCount() {
+    return uniqueNumberCount;
+  }
+
   public static int makeUniqueNumber() {
     uniqueNumberCount += 1;
     return uniqueNumberCount;

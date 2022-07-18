@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AerobicExerciseRecords {
-  private List<ExercisePlanPost> exercisePlanPosts;
+  private List<ExercisePlanPost> exercisePlanPosts = new ArrayList<>();
 
   private FileLoader fileLoader;
 
@@ -22,7 +22,9 @@ public class AerobicExerciseRecords {
 
     UniqueNumberManager.setUniqueNumberCount(fileLoader.loadCurrentUniqueNumberCount());
 
-    exercisePlanPosts = fileLoader.loadPosts();
+    System.out.println(UniqueNumberManager.uniqueNumberCount());
+
+    exercisePlanPosts = fileLoader.loadExercisePlanPosts();
   }
 
   public static void main(String[] args) throws FileNotFoundException {
@@ -31,6 +33,6 @@ public class AerobicExerciseRecords {
   }
 
   public void run() {
-    mainFrame = new MainFrame(exercisePlanPosts);
+    mainFrame = new MainFrame(exercisePlanPosts, fileLoader);
   }
 }

@@ -4,12 +4,14 @@ import models.ExercisePlanPost;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class FileLoader {
-  public List<ExercisePlanPost> loadPosts() throws FileNotFoundException {
+  public List<ExercisePlanPost> loadExercisePlanPosts() throws FileNotFoundException {
     File file = new File("data/exercise-plan-posts.csv");
 
     Scanner scanner = new Scanner(file);
@@ -50,5 +52,37 @@ public class FileLoader {
     Scanner scanner = new Scanner(file);
 
     return scanner.nextInt();
+  }
+
+  public void saveExercisePlanPosts(List<ExercisePlanPost> exercisePlanPosts) throws IOException {
+    FileWriter fileWriter = new FileWriter("data/exercise-plan-posts.csv");
+
+    for (ExercisePlanPost exercisePlanPost : exercisePlanPosts) {
+      String line = exercisePlanPost.uniqueNumber() + ","
+          + exercisePlanPost.deleted() + ","
+          + exercisePlanPost.title() + ","
+          + exercisePlanPost.date() + ","
+          + exercisePlanPost.exerciseType() + ","
+          + exercisePlanPost.exerciseTime() + ","
+          + exercisePlanPost.stopoverPoints() + ","
+          + exercisePlanPost.exerciseDistance() + ","
+          + exercisePlanPost.description() + "\n";
+
+      fileWriter.write(line);
+    }
+
+    fileWriter.close();
+  }
+
+  public void saveCurrentUniqueNumberCount() throws IOException {
+    FileWriter fileWriter = new FileWriter("data/unique-number-count.csv");
+
+    System.out.println(UniqueNumberManager.uniqueNumberCount());
+
+    String uniqueNumberCount = Integer.toString(UniqueNumberManager.uniqueNumberCount());
+
+    fileWriter.write(uniqueNumberCount + "\n");
+
+    fileWriter.close();
   }
 }
