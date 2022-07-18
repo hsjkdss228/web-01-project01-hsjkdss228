@@ -42,11 +42,20 @@ public class ExercisePlanPostFrame extends JFrame {
       EditExercisePlanPostFrame editExercisePlanPostFrame = new EditExercisePlanPostFrame(
           exercisePlanPosts, exercisePlanPost, EditExercisePlanPostFrame.MODIFICATION
       );
+
+      this.dispose();
     });
     buttonsPanel.add(modifyButton);
     JButton deleteButton = new JButton("삭제하기");
     deleteButton.addActionListener(event -> {
+      for (ExercisePlanPost found : exercisePlanPosts) {
+        if (found.uniqueNumber() == exercisePlanPost.uniqueNumber()) {
+          found.delete();
+          break;
+        }
+      }
 
+      this.dispose();
     });
     buttonsPanel.add(deleteButton);
     JButton reviewButton = new JButton("결과 기록하기");

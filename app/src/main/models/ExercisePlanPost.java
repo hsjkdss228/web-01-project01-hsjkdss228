@@ -111,4 +111,8 @@ public class ExercisePlanPost {
   public void modifyDescription(String description) {
     this.description = description;
   }
+
+  public void delete() {
+    this.deleted = true;
+  }
 }
