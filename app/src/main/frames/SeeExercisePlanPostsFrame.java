@@ -18,17 +18,18 @@ public class SeeExercisePlanPostsFrame extends JFrame {
     postTitlesPanel.setLayout(new GridLayout(0, 1));
 
     for (ExercisePlanPost exercisePlanPost : exercisePlanPosts) {
-      JLabel titleThumbnailLabel = new JLabel(exercisePlanPost.title());
-      titleThumbnailLabel.addMouseListener(new MouseAdapter() {
-        @Override
-        public void mouseClicked(MouseEvent e) {
-          JFrame postFrame = new ExercisePlanPostsFrame(exercisePlanPost);
+      if (!exercisePlanPost.deleted()) {
+        JLabel titleThumbnailLabel = new JLabel(exercisePlanPost.title());
+        titleThumbnailLabel.setHorizontalAlignment(JLabel.CENTER);
+        titleThumbnailLabel.addMouseListener(new MouseAdapter() {
+          @Override
+          public void mouseClicked(MouseEvent e) {
+            JFrame exercisePlanPostFrame = new ExercisePlanPostFrame(exercisePlanPosts, exercisePlanPost);
+          }
+        });
 
-          postFrame.setVisible(true);
-        }
-      });
-
-      postTitlesPanel.add(titleThumbnailLabel);
+        postTitlesPanel.add(titleThumbnailLabel);
+      }
     }
 
     this.add(postTitlesPanel);
