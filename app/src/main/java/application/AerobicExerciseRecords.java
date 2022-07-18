@@ -2,6 +2,7 @@ package application;
 
 import frames.MainFrame;
 import models.ExercisePlanPost;
+import models.ExerciseRecordPost;
 import utils.FileLoader;
 import utils.UniqueNumberManager;
 
@@ -11,7 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AerobicExerciseRecords {
-  private List<ExercisePlanPost> exercisePlanPosts = new ArrayList<>();
+  private List<ExercisePlanPost> exercisePlanPosts;
+  private List<ExerciseRecordPost> exerciseRecordPosts = new ArrayList<>();
 
   private FileLoader fileLoader;
 
@@ -33,6 +35,6 @@ public class AerobicExerciseRecords {
   }
 
   public void run() {
-    mainFrame = new MainFrame(exercisePlanPosts, fileLoader);
+    mainFrame = new MainFrame(exercisePlanPosts, exerciseRecordPosts, fileLoader);
   }
 }

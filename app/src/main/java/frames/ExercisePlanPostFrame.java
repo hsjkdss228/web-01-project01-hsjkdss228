@@ -1,6 +1,7 @@
 package frames;
 
 import models.ExercisePlanPost;
+import models.ExerciseRecordPost;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,7 +9,9 @@ import java.util.List;
 
 public class ExercisePlanPostFrame extends JFrame {
   public ExercisePlanPostFrame(
-      List<ExercisePlanPost> exercisePlanPosts, ExercisePlanPost exercisePlanPost) {
+      List<ExercisePlanPost> exercisePlanPosts,
+      ExercisePlanPost exercisePlanPost,
+      List<ExerciseRecordPost> exerciseRecordPosts) {
     this.setSize(500, 500);
     this.setLocation(700, 70);
     this.setLayout(new GridLayout(0, 1));
@@ -61,8 +64,10 @@ public class ExercisePlanPostFrame extends JFrame {
     JButton createExerciseRecordPostButton = new JButton("결과 기록하기");
     createExerciseRecordPostButton.addActionListener(event -> {
       EditExerciseRecordPostFrame editExerciseRecordPostFrame = new EditExerciseRecordPostFrame(
-
+        exercisePlanPosts, exercisePlanPost, exerciseRecordPosts
       );
+
+      this.dispose();
     });
     buttonsPanel.add(createExerciseRecordPostButton);
     this.add(buttonsPanel);
