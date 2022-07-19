@@ -1,6 +1,7 @@
 package frames;
 
 import models.ExercisePlanPost;
+import models.ExerciseRecordPost;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,7 +9,9 @@ import java.util.List;
 
 public class ExercisePlanPostFrame extends JFrame {
   public ExercisePlanPostFrame(
-      List<ExercisePlanPost> exercisePlanPosts, ExercisePlanPost exercisePlanPost) {
+      List<ExercisePlanPost> exercisePlanPosts,
+      ExercisePlanPost exercisePlanPost,
+      List<ExerciseRecordPost> exerciseRecordPosts) {
     this.setSize(500, 500);
     this.setLocation(700, 70);
     this.setLayout(new GridLayout(0, 1));
@@ -31,9 +34,17 @@ public class ExercisePlanPostFrame extends JFrame {
     JLabel exerciseDistanceLabel = new JLabel(exercisePlanPost.exerciseDistance());
     this.add(exerciseDistanceLabel);
 
+    JPanel descriptionPanel = new JPanel();
+    descriptionPanel.add(new JLabel("상세 설명: "));
     JTextArea descriptionTextArea = new JTextArea(exercisePlanPost.description());
+    descriptionTextArea.setColumns(20);
+    descriptionTextArea.setRows(2);
+    descriptionTextArea.setLineWrap(true);
     descriptionTextArea.setEditable(false);
-    this.add(descriptionTextArea);
+    JScrollPane scrollPane = new JScrollPane(descriptionTextArea);
+    scrollPane.createVerticalScrollBar();
+    descriptionPanel.add(scrollPane);
+    this.add(descriptionPanel);
 
     JPanel buttonsPanel = new JPanel();
     buttonsPanel.setLayout(new GridLayout(1, 3));
@@ -58,11 +69,15 @@ public class ExercisePlanPostFrame extends JFrame {
       this.dispose();
     });
     buttonsPanel.add(deleteButton);
-    JButton reviewButton = new JButton("결과 기록하기");
-    reviewButton.addActionListener(event -> {
+    JButton createExerciseRecordPostButton = new JButton("결과 기록하기");
+    createExerciseRecordPostButton.addActionListener(event -> {
+      EditExerciseRecordPostFrame editExerciseRecordPostFrame = new EditExerciseRecordPostFrame(
+        exercisePlanPosts, exercisePlanPost, exerciseRecordPosts, EditExerciseRecordPostFrame.CREATION
+      );
 
+      this.dispose();
     });
-    buttonsPanel.add(reviewButton);
+    buttonsPanel.add(createExerciseRecordPostButton);
     this.add(buttonsPanel);
 
     this.setVisible(true);

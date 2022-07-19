@@ -1,6 +1,7 @@
 package utils;
 
 import models.ExercisePlanPost;
+import models.ExerciseRecordPost;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -11,6 +12,14 @@ import java.util.List;
 import java.util.Scanner;
 
 public class FileLoader {
+  public int loadCurrentUniqueNumberCount() throws FileNotFoundException {
+    File file = new File("data/unique-number-count.csv");
+
+    Scanner scanner = new Scanner(file);
+
+    return scanner.nextInt();
+  }
+
   public List<ExercisePlanPost> loadExercisePlanPosts() throws FileNotFoundException {
     File file = new File("data/exercise-plan-posts.csv");
 
@@ -46,15 +55,62 @@ public class FileLoader {
     return exercisePlanPosts;
   }
 
-  public int loadCurrentUniqueNumberCount() throws FileNotFoundException {
-    File file = new File("data/unique-number-count.csv");
+  public List<ExerciseRecordPost> loadExerciseRecordPosts(
+      List<ExercisePlanPost> exercisePlanPosts) throws FileNotFoundException{
+    File file = new File("data/exercise-record-posts.csv");
 
     Scanner scanner = new Scanner(file);
 
-    return scanner.nextInt();
+    List<ExerciseRecordPost> exerciseRecordPosts = new ArrayList<>();
+
+    while (scanner.hasNextLine()) {
+      String line = scanner.nextLine();
+
+      String[] components = line.split(",");
+
+      int uniqueNumber = Integer.parseInt(components[0]);
+
+      ExercisePlanPost exercisePlanPost = null;
+      for (ExercisePlanPost found : exercisePlanPosts) {
+        if (found.uniqueNumber() == uniqueNumber) {
+          exercisePlanPost = found;
+        }
+      }
+
+      boolean deleted = Boolean.parseBoolean(components[1]);
+
+      boolean achievedExerciseTime = Boolean.parseBoolean(components[2]);
+      boolean visitedAllStopoverPoints = Boolean.parseBoolean(components[3]);
+      boolean achievedExerciseDistance = Boolean.parseBoolean(components[4]);
+      boolean finalResult = Boolean.parseBoolean(components[5]);
+      String description = components[6];
+
+      boolean isPublicPost = Boolean.parseBoolean(components[7]);
+
+      ExerciseRecordPost exerciseRecordPost = new ExerciseRecordPost(
+          exercisePlanPost, uniqueNumber, deleted,
+          achievedExerciseTime, visitedAllStopoverPoints, achievedExerciseDistance,
+          finalResult, description, isPublicPost
+      );
+
+      exerciseRecordPosts.add(exerciseRecordPost);
+    }
+
+    return exerciseRecordPosts;
   }
 
-  public void saveExercisePlanPosts(List<ExercisePlanPost> exercisePlanPosts) throws IOException {
+  public void saveCurrentUniqueNumberCount() throws IOException {
+    FileWriter fileWriter = new FileWriter("data/unique-number-count.csv");
+
+    String uniqueNumberCount = Integer.toString(UniqueNumberManager.uniqueNumberCount());
+
+    fileWriter.write(uniqueNumberCount + "\n");
+
+    fileWriter.close();
+  }
+
+  public void saveExercisePlanPosts(
+      List<ExercisePlanPost> exercisePlanPosts) throws IOException {
     FileWriter fileWriter = new FileWriter("data/exercise-plan-posts.csv");
 
     for (ExercisePlanPost exercisePlanPost : exercisePlanPosts) {
@@ -74,14 +130,22 @@ public class FileLoader {
     fileWriter.close();
   }
 
-  public void saveCurrentUniqueNumberCount() throws IOException {
-    FileWriter fileWriter = new FileWriter("data/unique-number-count.csv");
+  public void saveExerciseRecordPosts
+      (List<ExerciseRecordPost> exerciseRecordPosts) throws IOException {
+    FileWriter fileWriter = new FileWriter("data/exercise-record-posts.csv");
 
-    System.out.println(UniqueNumberManager.uniqueNumberCount());
+    for (ExerciseRecordPost exerciseRecordPost : exerciseRecordPosts) {
+      String line = exerciseRecordPost.uniqueNumber() + ","
+          + exerciseRecordPost.deleted() + ","
+          + exerciseRecordPost.achievedExerciseTime() + ","
+          + exerciseRecordPost.visitedAllStopoverPoints() + ","
+          + exerciseRecordPost.achievedExerciseDistance() + ","
+          + exerciseRecordPost.finalResult() + ","
+          + exerciseRecordPost.description() + ","
+          + exerciseRecordPost.isPublicPost() + "\n";
 
-    String uniqueNumberCount = Integer.toString(UniqueNumberManager.uniqueNumberCount());
-
-    fileWriter.write(uniqueNumberCount + "\n");
+      fileWriter.write(line);
+    }
 
     fileWriter.close();
   }
