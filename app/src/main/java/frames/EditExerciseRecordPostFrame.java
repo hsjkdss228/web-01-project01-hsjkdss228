@@ -152,7 +152,7 @@ public class EditExerciseRecordPostFrame extends JFrame {
           .getSelection().getActionCommand().equals("달성");
       String description = descriptionTextArea.getText();
       boolean isPublicPost = privacyStateCheckButtonGroup
-          .getSelection().getActionCommand().equals("달성");
+          .getSelection().getActionCommand().equals("공개");
 
       ExerciseRecordPost exerciseRecordPost = new ExerciseRecordPost(
           exercisePlanPost, achievedExerciseTime, visitedAllStopoverPoints,

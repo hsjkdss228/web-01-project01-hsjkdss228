@@ -28,6 +28,7 @@ public class MainFrame extends JFrame {
       public void windowClosing(WindowEvent e) {
         try {
           fileLoader.saveExercisePlanPosts(exercisePlanPosts);
+          fileLoader.saveExerciseRecordPosts(exerciseRecordPosts);
           fileLoader.saveCurrentUniqueNumberCount();
         } catch (IOException exception) {
           throw new RuntimeException(exception);

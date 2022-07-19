@@ -13,7 +13,7 @@ import java.util.List;
 
 public class AerobicExerciseRecords {
   private List<ExercisePlanPost> exercisePlanPosts;
-  private List<ExerciseRecordPost> exerciseRecordPosts = new ArrayList<>();
+  private List<ExerciseRecordPost> exerciseRecordPosts;
 
   private FileLoader fileLoader;
 
@@ -25,6 +25,7 @@ public class AerobicExerciseRecords {
     UniqueNumberManager.setUniqueNumberCount(fileLoader.loadCurrentUniqueNumberCount());
 
     exercisePlanPosts = fileLoader.loadExercisePlanPosts();
+    exerciseRecordPosts = fileLoader.loadExerciseRecordPosts(exercisePlanPosts);
   }
 
   public static void main(String[] args) throws FileNotFoundException {
