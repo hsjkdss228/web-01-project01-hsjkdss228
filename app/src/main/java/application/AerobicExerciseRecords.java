@@ -24,8 +24,6 @@ public class AerobicExerciseRecords {
 
     UniqueNumberManager.setUniqueNumberCount(fileLoader.loadCurrentUniqueNumberCount());
 
-    System.out.println(UniqueNumberManager.uniqueNumberCount());
-
     exercisePlanPosts = fileLoader.loadExercisePlanPosts();
   }
 

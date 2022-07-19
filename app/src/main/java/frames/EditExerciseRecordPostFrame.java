@@ -162,6 +162,13 @@ public class EditExerciseRecordPostFrame extends JFrame {
 
       exerciseRecordPosts.add(exerciseRecordPost);
 
+      for (ExercisePlanPost found : exercisePlanPosts) {
+        if (found.uniqueNumber() == exercisePlanPost.uniqueNumber()) {
+          found.delete();
+          break;
+        }
+      }
+
       this.dispose();
     });
     buttonsPanel.add(registerButton, BorderLayout.EAST);
