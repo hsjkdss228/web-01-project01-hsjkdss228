@@ -108,7 +108,7 @@ public class EditExerciseRecordPostFrame extends JFrame {
     descriptionPanel.add(new JLabel("상세 설명: "));
     descriptionTextArea = new JTextArea();
     descriptionTextArea.setColumns(20);
-    descriptionTextArea.setRows(3);
+    descriptionTextArea.setRows(2);
     descriptionTextArea.setLineWrap(true);
     descriptionTextArea.setEditable(true);
     JScrollPane scrollPane = new JScrollPane(descriptionTextArea);

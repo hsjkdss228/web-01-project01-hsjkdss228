@@ -20,10 +20,20 @@ public class SeeExerciseRecordPostsFrame extends JFrame {
     postTitlesPanel.setLayout(new GridLayout(0, 1));
 
     for (ExerciseRecordPost exerciseRecordPost : exerciseRecordPosts) {
-      JLabel titleThumbnailLabel = new JLabel(exerciseRecordPost.exercisePlanPost().title());
-      titleThumbnailLabel.setHorizontalAlignment(JLabel.CENTER);
+      if (!exerciseRecordPost.deleted()) {
+        JLabel titleThumbnailLabel = new JLabel(exerciseRecordPost.exercisePlanPost().title());
+        titleThumbnailLabel.setHorizontalAlignment(JLabel.CENTER);
+        titleThumbnailLabel.addMouseListener(new MouseAdapter() {
+          @Override
+          public void mouseClicked(MouseEvent e) {
+            JFrame exerciseRecordPostFrame = new ExerciseRecordPostFrame(
+                exerciseRecordPosts, exerciseRecordPost
+            );
+          }
+        });
 
-      postTitlesPanel.add(titleThumbnailLabel);
+        postTitlesPanel.add(titleThumbnailLabel);
+      }
     }
 
     this.add(postTitlesPanel);
