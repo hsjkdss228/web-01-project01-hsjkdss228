@@ -21,7 +21,7 @@ public class SeeExerciseRecordPostsFrame extends JFrame {
 
     for (ExerciseRecordPost exerciseRecordPost : exerciseRecordPosts) {
       if (!exerciseRecordPost.deleted()) {
-        JLabel titleThumbnailLabel = new JLabel(exerciseRecordPost.exercisePlanPost().title());
+        JLabel titleThumbnailLabel = new JLabel(exerciseRecordPost.exercisePlanPost().title() + " 운동 결과");
         titleThumbnailLabel.setHorizontalAlignment(JLabel.CENTER);
         titleThumbnailLabel.addMouseListener(new MouseAdapter() {
           @Override

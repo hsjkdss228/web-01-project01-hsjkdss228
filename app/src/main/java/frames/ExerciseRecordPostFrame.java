@@ -66,7 +66,7 @@ public class ExerciseRecordPostFrame extends JFrame {
     descriptionPanel.add(new JLabel("상세 설명: "));
     JTextArea descriptionTextArea = new JTextArea(exerciseRecordPost.description());
     descriptionTextArea.setColumns(20);
-    descriptionTextArea.setRows(3);
+    descriptionTextArea.setRows(2);
     descriptionTextArea.setLineWrap(true);
     descriptionTextArea.setEditable(false);
     JScrollPane scrollPane = new JScrollPane(descriptionTextArea);
@@ -74,30 +74,30 @@ public class ExerciseRecordPostFrame extends JFrame {
     descriptionPanel.add(scrollPane);
     this.add(descriptionPanel);
 
-//    JPanel buttonsPanel = new JPanel();
-//    buttonsPanel.setLayout(new GridLayout(1, 3));
-//    JButton modifyButton = new JButton("수정하기");
-//    modifyButton.addActionListener(event -> {
-//      EditExercisePlanPostFrame editExercisePlanPostFrame = new EditExercisePlanPostFrame(
-//          exercisePlanPosts, exercisePlanPost, EditExercisePlanPostFrame.MODIFICATION
-//      );
-//
-//      this.dispose();
-//    });
-//    buttonsPanel.add(modifyButton);
-//    JButton deleteButton = new JButton("삭제하기");
-//    deleteButton.addActionListener(event -> {
-//      for (ExercisePlanPost found : exercisePlanPosts) {
-//        if (found.uniqueNumber() == exercisePlanPost.uniqueNumber()) {
-//          found.delete();
-//          break;
-//        }
-//      }
-//
-//      this.dispose();
-//    });
-//    buttonsPanel.add(deleteButton);
-//    this.add(buttonsPanel);
+    JPanel buttonsPanel = new JPanel();
+    buttonsPanel.setLayout(new GridLayout(1, 3));
+    JButton modifyButton = new JButton("수정하기");
+    modifyButton.addActionListener(event -> {
+      EditExerciseRecordPostFrame editExerciseRecordPostFrame = new EditExerciseRecordPostFrame(
+          exerciseRecordPosts, exerciseRecordPost, EditExerciseRecordPostFrame.MODIFICATION
+      );
+
+      this.dispose();
+    });
+    buttonsPanel.add(modifyButton);
+    JButton deleteButton = new JButton("삭제하기");
+    deleteButton.addActionListener(event -> {
+      for (ExerciseRecordPost found : exerciseRecordPosts) {
+        if (found.uniqueNumber() == exerciseRecordPost.uniqueNumber()) {
+          found.delete();
+          break;
+        }
+      }
+
+      this.dispose();
+    });
+    buttonsPanel.add(deleteButton);
+    this.add(buttonsPanel);
 
     this.setVisible(true);
   }

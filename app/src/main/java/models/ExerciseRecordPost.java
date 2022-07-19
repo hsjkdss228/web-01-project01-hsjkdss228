@@ -87,4 +87,32 @@ public class ExerciseRecordPost {
   public boolean isPublicPost() {
     return isPublicPost;
   }
+
+  public void delete() {
+    deleted = true;
+  }
+
+  public void modifyAchievedExerciseTime(boolean achievedExerciseTime) {
+    this.achievedExerciseTime = achievedExerciseTime;
+  }
+
+  public void modifyVisitedAllStopoverPoints(boolean visitedAllStopoverPoints) {
+    this.visitedAllStopoverPoints = visitedAllStopoverPoints;
+  }
+
+  public void modifyAchievedExerciseDistance(boolean achievedExerciseDistance) {
+    this.achievedExerciseDistance = achievedExerciseDistance;
+  }
+
+  public void modifyFinalResult(boolean finalResult) {
+    this.finalResult = finalResult;
+  }
+
+  public void modifyDescription(String description) {
+    this.description = description;
+  }
+
+  public void modifyPrivacyOfPost(boolean isPublicPost) {
+    this.isPublicPost = isPublicPost;
+  }
 }

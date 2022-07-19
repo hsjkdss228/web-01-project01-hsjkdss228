@@ -34,9 +34,17 @@ public class ExercisePlanPostFrame extends JFrame {
     JLabel exerciseDistanceLabel = new JLabel(exercisePlanPost.exerciseDistance());
     this.add(exerciseDistanceLabel);
 
+    JPanel descriptionPanel = new JPanel();
+    descriptionPanel.add(new JLabel("상세 설명: "));
     JTextArea descriptionTextArea = new JTextArea(exercisePlanPost.description());
+    descriptionTextArea.setColumns(20);
+    descriptionTextArea.setRows(2);
+    descriptionTextArea.setLineWrap(true);
     descriptionTextArea.setEditable(false);
-    this.add(descriptionTextArea);
+    JScrollPane scrollPane = new JScrollPane(descriptionTextArea);
+    scrollPane.createVerticalScrollBar();
+    descriptionPanel.add(scrollPane);
+    this.add(descriptionPanel);
 
     JPanel buttonsPanel = new JPanel();
     buttonsPanel.setLayout(new GridLayout(1, 3));
@@ -64,7 +72,7 @@ public class ExercisePlanPostFrame extends JFrame {
     JButton createExerciseRecordPostButton = new JButton("결과 기록하기");
     createExerciseRecordPostButton.addActionListener(event -> {
       EditExerciseRecordPostFrame editExerciseRecordPostFrame = new EditExerciseRecordPostFrame(
-        exercisePlanPosts, exercisePlanPost, exerciseRecordPosts
+        exercisePlanPosts, exercisePlanPost, exerciseRecordPosts, EditExerciseRecordPostFrame.CREATION
       );
 
       this.dispose();
