@@ -118,7 +118,10 @@ public class ExerciseRecordPostPanel extends JPanel {
         }
       }
 
-      //TODO: 삭제하기 버튼 눌렀을 때 할 일 추가
+      JPanel seeExerciseRecordPostsPanel = new SeeExerciseRecordPostsPanel(
+          exercisePlanPosts, exerciseRecordPosts
+      );
+      AerobicExerciseRecords.mainFrame().showContentPanel(seeExerciseRecordPostsPanel);
     });
     buttonsPanel.add(deleteButton);
     this.add(buttonsPanel);
