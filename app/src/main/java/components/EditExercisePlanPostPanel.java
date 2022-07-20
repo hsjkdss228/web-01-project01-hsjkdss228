@@ -16,7 +16,7 @@ public class EditExercisePlanPostPanel extends JPanel {
 
   private JTextField titleTextField;
   private JTextField dateTextField;
-  private JTextField exerciseTypeTextField;
+  private ButtonGroup exerciseTypeButtonGroup;
   private JTextField exerciseTimeTextField;
   private JTextField stopoverPointsTextField;
   private JTextField exerciseDistanceTextField;
@@ -38,7 +38,7 @@ public class EditExercisePlanPostPanel extends JPanel {
     this.add(backButton);
     createTitlePanel("");
     createDatePanel("");
-    createExerciseTypePanel("");
+    createExerciseTypePanel();
     createExerciseTimePanel("");
     createStopoverPointPanel("");
     createDistancePanel("");
@@ -63,7 +63,7 @@ public class EditExercisePlanPostPanel extends JPanel {
     this.add(backButton);
     createTitlePanel(exercisePlanPost.title());
     createDatePanel(exercisePlanPost.date());
-    createExerciseTypePanel(exercisePlanPost.exerciseType());
+    createExerciseTypePanel();
     createExerciseTimePanel(exercisePlanPost.exerciseTime());
     createStopoverPointPanel(exercisePlanPost.stopoverPoints());
     createDistancePanel(exercisePlanPost.exerciseDistance());
@@ -87,11 +87,32 @@ public class EditExercisePlanPostPanel extends JPanel {
     this.add(datePanel);
   }
 
-  public void createExerciseTypePanel(String text) {
+  public void createExerciseTypePanel() {
     JPanel exerciseTypePanel = new JPanel();
     exerciseTypePanel.add(new JLabel("운동 종류: "));
-    exerciseTypeTextField = new JTextField(text, 15);
-    exerciseTypePanel.add(exerciseTypeTextField);
+
+    exerciseTypeButtonGroup = new ButtonGroup();
+
+    JRadioButton walkingButton = new JRadioButton("걷기");
+    walkingButton.setActionCommand("걷기");
+    exerciseTypeButtonGroup.add(walkingButton);
+    exerciseTypePanel.add(walkingButton);
+
+    JRadioButton runningButton = new JRadioButton("달리기");
+    runningButton.setActionCommand("달리기");
+    exerciseTypeButtonGroup.add(runningButton);
+    exerciseTypePanel.add(runningButton);
+
+    JRadioButton cyclingButton = new JRadioButton("자전거");
+    cyclingButton.setActionCommand("자전거");
+    exerciseTypeButtonGroup.add(cyclingButton);
+    exerciseTypePanel.add(cyclingButton);
+
+    JRadioButton climbingButton = new JRadioButton("등산");
+    climbingButton.setActionCommand("등산");
+    exerciseTypeButtonGroup.add(climbingButton);
+    exerciseTypePanel.add(climbingButton);
+
     this.add(exerciseTypePanel);
   }
 
@@ -142,7 +163,7 @@ public class EditExercisePlanPostPanel extends JPanel {
       if (mode == EditExercisePlanPostPanel.CREATION) {
         titleTextField.setText("");
         dateTextField.setText("");
-        exerciseTypeTextField.setText("");
+        exerciseTypeButtonGroup.clearSelection();
         exerciseTimeTextField.setText("");
         stopoverPointsTextField.setText("");
         exerciseDistanceTextField.setText("");
@@ -150,9 +171,11 @@ public class EditExercisePlanPostPanel extends JPanel {
       }
 
       if (mode == EditExercisePlanPostPanel.MODIFICATION) {
+        //TODO: 수정 모드에서 초기화 버튼 누르면 원래 선택되어 있던 것으로
+        // 리셋해줄 수 있었으면 좋겠음, 근데 ㄱㄴ? editor랑 modifier를 분리해야 할 수도?
         titleTextField.setText(toBeModified.title());
         dateTextField.setText(toBeModified.date());
-        exerciseTypeTextField.setText(toBeModified.exerciseType());
+        exerciseTypeButtonGroup.clearSelection();
         exerciseTimeTextField.setText(toBeModified.exerciseTime());
         stopoverPointsTextField.setText(toBeModified.stopoverPoints());
         exerciseDistanceTextField.setText(toBeModified.exerciseDistance());
@@ -160,13 +183,14 @@ public class EditExercisePlanPostPanel extends JPanel {
       }
     });
     buttonsPanel.add(cancelButton, BorderLayout.WEST);
+
     JButton registerButton = new JButton("등록하기");
     registerButton.addActionListener(event -> {
       if (mode == EditExercisePlanPostPanel.CREATION) {
         ExercisePlanPost exercisePlanPost = new ExercisePlanPost(
             titleTextField.getText(),
             dateTextField.getText(),
-            exerciseTypeTextField.getText(),
+            exerciseTypeButtonGroup.getSelection().getActionCommand(),
             exerciseTimeTextField.getText(),
             stopoverPointsTextField.getText(),
             exerciseDistanceTextField.getText(),
@@ -180,7 +204,9 @@ public class EditExercisePlanPostPanel extends JPanel {
           if (found.uniqueNumber() == toBeModified.uniqueNumber()) {
             found.modifyTitle(titleTextField.getText());
             found.modifyDate(dateTextField.getText());
-            found.modifyExerciseType(exerciseTypeTextField.getText());
+            found.modifyExerciseType(
+                exerciseTypeButtonGroup.getSelection().getActionCommand()
+            );
             found.modifyExerciseTime(exerciseTimeTextField.getText());
             found.modifyStopoverPoints(stopoverPointsTextField.getText());
             found.modifyExerciseDistance(exerciseDistanceTextField.getText());
