@@ -134,7 +134,7 @@ public class EditExercisePlanPostPanel extends JPanel {
   public void createStopoverPointsPanel(int mode, List<String> existingStopoverPoints) {
     stopoverPoints = mode == EditExercisePlanPostPanel.CREATION
         ? new ArrayList<>()
-        : existingStopoverPoints;
+        : new ArrayList<>(existingStopoverPoints);
 
     JPanel stopoverPointsPanel = new JPanel();
     stopoverPointsPanel.setLayout(new BorderLayout());
@@ -176,6 +176,7 @@ public class EditExercisePlanPostPanel extends JPanel {
         stopoverPoints.remove(stopoverPoint);
         updateAddedStopoverPointsPanel();
       });
+      stopoverPointPanel.add(deleteButton);
       addedStopoverPointsPanel.add(stopoverPointPanel);
     }
 
