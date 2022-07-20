@@ -1,5 +1,6 @@
-package frames;
+package components;
 
+import application.AerobicExerciseRecords;
 import models.ExercisePlanPost;
 import models.ExerciseRecordPost;
 
@@ -7,12 +8,20 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
-public class ExerciseRecordPostFrame extends JFrame {
-  public ExerciseRecordPostFrame(
+public class ExerciseRecordPostPanel extends JPanel {
+  public ExerciseRecordPostPanel(
+      List<ExercisePlanPost> exercisePlanPosts,
       List<ExerciseRecordPost> exerciseRecordPosts, ExerciseRecordPost exerciseRecordPost) {
-    this.setSize(500, 500);
-    this.setLocation(700, 70);
     this.setLayout(new GridLayout(0, 1));
+
+    JButton backButton = new JButton("뒤로가기");
+    backButton.addActionListener(event -> {
+      JPanel seeExerciseRecordPostsPanel = new SeeExerciseRecordPostsPanel(
+          exercisePlanPosts, exerciseRecordPosts
+      );
+      AerobicExerciseRecords.mainFrame().showContentPanel(seeExerciseRecordPostsPanel);
+    });
+    this.add(backButton);
 
     JPanel titlePanel = new JPanel();
     JLabel titleLabel = new JLabel(exerciseRecordPost.exercisePlanPost().title() + " 운동 결과");
@@ -78,11 +87,11 @@ public class ExerciseRecordPostFrame extends JFrame {
     buttonsPanel.setLayout(new GridLayout(1, 3));
     JButton modifyButton = new JButton("수정하기");
     modifyButton.addActionListener(event -> {
-      EditExerciseRecordPostFrame editExerciseRecordPostFrame = new EditExerciseRecordPostFrame(
-          exerciseRecordPosts, exerciseRecordPost, EditExerciseRecordPostFrame.MODIFICATION
+      JPanel editExerciseRecordPostPanel = new EditExerciseRecordPostPanel(
+          exercisePlanPosts, exerciseRecordPosts, exerciseRecordPost,
+          EditExerciseRecordPostPanel.MODIFICATION
       );
-
-      this.dispose();
+      AerobicExerciseRecords.mainFrame().showContentPanel(editExerciseRecordPostPanel);
     });
     buttonsPanel.add(modifyButton);
     JButton deleteButton = new JButton("삭제하기");
@@ -94,7 +103,7 @@ public class ExerciseRecordPostFrame extends JFrame {
         }
       }
 
-      this.dispose();
+      //TODO: 삭제하기 버튼 눌렀을 때 할 일 추가
     });
     buttonsPanel.add(deleteButton);
     this.add(buttonsPanel);

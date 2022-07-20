@@ -1,5 +1,6 @@
-package frames;
+package components;
 
+import application.AerobicExerciseRecords;
 import models.ExercisePlanPost;
 import models.ExerciseRecordPost;
 
@@ -9,16 +10,20 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
-public class SeeExerciseRecordPostsFrame extends JFrame {
-  public SeeExerciseRecordPostsFrame(
-      List<ExerciseRecordPost> exerciseRecordPosts) {
-    this.setSize(500, 500);
-    this.setLocation(350, 200);
+public class SeeExerciseRecordPostsPanel extends JPanel {
+  public SeeExerciseRecordPostsPanel(
+      List<ExercisePlanPost> exercisePlanPosts, List<ExerciseRecordPost> exerciseRecordPosts) {
     this.setLayout(new GridLayout(0, 1));
 
     JPanel postTitlesPanel = new JPanel();
     postTitlesPanel.setLayout(new GridLayout(0, 1));
 
+    JButton backButton = new JButton("뒤로가기");
+    backButton.addActionListener(event -> {
+      JPanel mainMenuPanel = new MainMenuPanel(exercisePlanPosts, exerciseRecordPosts);
+      AerobicExerciseRecords.mainFrame().showContentPanel(mainMenuPanel);
+    });
+    postTitlesPanel.add(backButton);
     for (ExerciseRecordPost exerciseRecordPost : exerciseRecordPosts) {
       if (!exerciseRecordPost.deleted()) {
         JLabel titleThumbnailLabel = new JLabel(exerciseRecordPost.exercisePlanPost().title() + " 운동 결과");
@@ -26,9 +31,10 @@ public class SeeExerciseRecordPostsFrame extends JFrame {
         titleThumbnailLabel.addMouseListener(new MouseAdapter() {
           @Override
           public void mouseClicked(MouseEvent e) {
-            JFrame exerciseRecordPostFrame = new ExerciseRecordPostFrame(
-                exerciseRecordPosts, exerciseRecordPost
+            JPanel exerciseRecordPostPanel = new ExerciseRecordPostPanel(
+                exercisePlanPosts, exerciseRecordPosts, exerciseRecordPost
             );
+            AerobicExerciseRecords.mainFrame().showContentPanel(exerciseRecordPostPanel);
           }
         });
 
@@ -37,7 +43,5 @@ public class SeeExerciseRecordPostsFrame extends JFrame {
     }
 
     this.add(postTitlesPanel);
-
-    this.setVisible(true);
   }
 }
