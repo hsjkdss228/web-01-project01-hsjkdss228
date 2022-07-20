@@ -2,6 +2,9 @@ package models;
 
 import utils.UniqueNumberManager;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ExercisePlanPost {
   private int uniqueNumber;
   private boolean deleted;
@@ -10,7 +13,7 @@ public class ExercisePlanPost {
   private String date = "운동한 날짜";
   private String exerciseType = "유산소 운동 종류";
   private String exerciseTime = "운동한 시간";
-  private String stopoverPoints = "경유지";
+  private List<String> stopoverPoints;
   private String exerciseDistance = "운동 거리";
   private String description = "상세 설명";
 
@@ -20,7 +23,7 @@ public class ExercisePlanPost {
   }
 
   public ExercisePlanPost(String title, String date, String exerciseType, String exerciseTime,
-                          String stopoverPoints, String exerciseDistance, String description) {
+                          List<String> stopoverPoints, String exerciseDistance, String description) {
     this.uniqueNumber = UniqueNumberManager.makeUniqueNumber();
     this.deleted = false;
 
@@ -28,13 +31,13 @@ public class ExercisePlanPost {
     this.date = date;
     this.exerciseType = exerciseType;
     this.exerciseTime = exerciseTime;
-    this.stopoverPoints = stopoverPoints;
+    this.stopoverPoints = new ArrayList<>(stopoverPoints);
     this.exerciseDistance = exerciseDistance;
     this.description = description;
   }
 
   public ExercisePlanPost(int uniqueNumber, boolean deleted, String title, String date,
-                          String exerciseType,  String exerciseTime, String stopoverPoints,
+                          String exerciseType,  String exerciseTime, List<String> stopoverPoints,
                           String exerciseDistance, String description) {
     this.uniqueNumber = uniqueNumber;
     this.deleted = deleted;
@@ -43,7 +46,7 @@ public class ExercisePlanPost {
     this.date = date;
     this.exerciseType = exerciseType;
     this.exerciseTime = exerciseTime;
-    this.stopoverPoints = stopoverPoints;
+    this.stopoverPoints = new ArrayList<>(stopoverPoints);
     this.exerciseDistance = exerciseDistance;
     this.description = description;
   }
@@ -72,7 +75,7 @@ public class ExercisePlanPost {
     return exerciseTime;
   }
 
-  public String stopoverPoints() {
+  public List<String> stopoverPoints() {
     return stopoverPoints;
   }
 
@@ -100,8 +103,8 @@ public class ExercisePlanPost {
     this.exerciseTime = exerciseTime;
   }
 
-  public void modifyStopoverPoints(String stopoverPoints) {
-    this.stopoverPoints = stopoverPoints;
+  public void modifyStopoverPoints(List<String> stopoverPoints) {
+    this.stopoverPoints = new ArrayList<>(stopoverPoints);
   }
 
   public void modifyExerciseDistance(String exerciseDistance) {
