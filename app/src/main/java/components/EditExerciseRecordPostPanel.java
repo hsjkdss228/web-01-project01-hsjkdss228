@@ -6,6 +6,7 @@ import models.ExerciseRecordPost;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class EditExerciseRecordPostPanel extends JPanel {
@@ -16,7 +17,7 @@ public class EditExerciseRecordPostPanel extends JPanel {
   List<ExerciseRecordPost> exerciseRecordPosts;
 
   private ButtonGroup exerciseTimeAchievementCheckButtonGroup;
-  private ButtonGroup stopoverPointsAchievementCheckButtonGroup;
+  private List<ButtonGroup> stopoverPointsAchievementCheckButtonGroups;
   private ButtonGroup exerciseDistanceAchievementCheckButtonGroup;
   private ButtonGroup finalResultCheckButtonGroup;
   private JTextArea descriptionTextArea;
@@ -47,7 +48,7 @@ public class EditExerciseRecordPostPanel extends JPanel {
     createFinalResultCheckPanel();
     createDescriptionPanel("");
     createPrivacyStateCheckPanel();
-    createButtonsPanel(mode, exercisePlanPost, null);
+    createButtonsPanel(mode, exercisePlanPost, null, exercisePlanPosts, exerciseRecordPosts);
 
     this.setVisible(true);
   }
@@ -77,7 +78,7 @@ public class EditExerciseRecordPostPanel extends JPanel {
     createFinalResultCheckPanel();
     createDescriptionPanel(exerciseRecordPost.description());
     createPrivacyStateCheckPanel();
-    createButtonsPanel(mode, null, exerciseRecordPost);
+    createButtonsPanel(mode, null, exerciseRecordPost, exercisePlanPosts, exerciseRecordPosts);
 
 //    restoreCheckButtonGroup(exerciseTimeAchievementCheckButtonGroup, exerciseRecordPost.achievedExerciseTime());
 //    restoreCheckButtonGroup(stopoverPointsAchievementCheckButtonGroup, exerciseRecordPost.visitedAllStopoverPoints());
@@ -101,18 +102,41 @@ public class EditExerciseRecordPostPanel extends JPanel {
     this.add(exerciseTimeAchievementCheckPanel);
   }
 
-  public void createStopoverPointsAchievementCheckPanel(String stopoverPoints) {
+  public void createStopoverPointsAchievementCheckPanel(List<String> stopoverPoints) {
     JPanel stopoverPointsAchievementCheckPanel = new JPanel();
-    stopoverPointsAchievementCheckPanel.add(new JLabel("목표 경유 장소: " + stopoverPoints));
-    stopoverPointsAchievementCheckButtonGroup = new ButtonGroup();
-    JRadioButton achievedRadioButton = new JRadioButton("달성");
-    achievedRadioButton.setActionCommand("달성");
-    stopoverPointsAchievementCheckButtonGroup.add(achievedRadioButton);
-    stopoverPointsAchievementCheckPanel.add(achievedRadioButton);
-    JRadioButton notAchievedRadioButton = new JRadioButton("실패");
-    notAchievedRadioButton.setActionCommand("실패");
-    stopoverPointsAchievementCheckButtonGroup.add(notAchievedRadioButton);
-    stopoverPointsAchievementCheckPanel.add(notAchievedRadioButton);
+
+    stopoverPointsAchievementCheckPanel.add(new JLabel("목표 경유 장소 리스트"));
+
+    stopoverPointsAchievementCheckButtonGroups = new ArrayList<>();
+
+    for (String stopoverPoint : stopoverPoints) {
+      JPanel stopoverPointPanel = new JPanel();
+      stopoverPointPanel.setLayout(new GridLayout(0, 1));
+
+      stopoverPointPanel.add(new JLabel("경유지 "
+          + (stopoverPoints.indexOf(stopoverPoint) + 1)
+          + ": " + stopoverPoint));
+
+      ButtonGroup stopoverPointsAchievementCheckButtonGroup = new ButtonGroup();
+
+      JRadioButton achievedRadioButton = new JRadioButton("달성");
+      achievedRadioButton.setActionCommand("달성");
+
+      stopoverPointsAchievementCheckButtonGroup.add(achievedRadioButton);
+      stopoverPointPanel.add(achievedRadioButton);
+
+      JRadioButton notAchievedRadioButton = new JRadioButton("실패");
+      notAchievedRadioButton.setActionCommand("실패");
+
+      stopoverPointsAchievementCheckButtonGroup.add(notAchievedRadioButton);
+      stopoverPointPanel.add(notAchievedRadioButton);
+
+      stopoverPointsAchievementCheckButtonGroups.add(
+          stopoverPointsAchievementCheckButtonGroup
+      );
+      stopoverPointsAchievementCheckPanel.add(stopoverPointPanel);
+    }
+
     this.add(stopoverPointsAchievementCheckPanel);
   }
 
@@ -175,18 +199,25 @@ public class EditExerciseRecordPostPanel extends JPanel {
     this.add(privacyStateCheckPanel);
   }
 
-  public void createButtonsPanel(int mode, ExercisePlanPost exercisePlanPost, ExerciseRecordPost toBeModified) {
+  public void createButtonsPanel(
+      int mode, ExercisePlanPost exercisePlanPost, ExerciseRecordPost toBeModified,
+      List<ExercisePlanPost> exercisePlanPosts, List<ExerciseRecordPost> exerciseRecordPosts) {
     JPanel buttonsPanel = new JPanel();
     buttonsPanel.setLayout(new BorderLayout());
     JButton cancelButton = new JButton("초기화");
     cancelButton.addActionListener(event -> {
 //      if (mode == EditExerciseRecordPostPanel.CREATION) {
-        exerciseTimeAchievementCheckButtonGroup.clearSelection();
+      exerciseTimeAchievementCheckButtonGroup.clearSelection();
+
+      for (ButtonGroup stopoverPointsAchievementCheckButtonGroup
+          : stopoverPointsAchievementCheckButtonGroups) {
         stopoverPointsAchievementCheckButtonGroup.clearSelection();
-        exerciseDistanceAchievementCheckButtonGroup.clearSelection();
-        finalResultCheckButtonGroup.clearSelection();
-        descriptionTextArea.setText("");
-        privacyStateCheckButtonGroup.clearSelection();
+      }
+
+      exerciseDistanceAchievementCheckButtonGroup.clearSelection();
+      finalResultCheckButtonGroup.clearSelection();
+      descriptionTextArea.setText("");
+      privacyStateCheckButtonGroup.clearSelection();
 //      }
 
       if (mode == EditExerciseRecordPostPanel.MODIFICATION) {
@@ -199,13 +230,23 @@ public class EditExerciseRecordPostPanel extends JPanel {
       }
     });
     buttonsPanel.add(cancelButton, BorderLayout.WEST);
+
     JButton registerButton = new JButton("등록하기");
     registerButton.addActionListener(event -> {
       if (mode == EditExerciseRecordPostPanel.CREATION) {
         boolean achievedExerciseTime = exerciseTimeAchievementCheckButtonGroup
             .getSelection().getActionCommand().equals("달성");
-        boolean visitedAllStopoverPoints = stopoverPointsAchievementCheckButtonGroup
-            .getSelection().getActionCommand().equals("달성");
+
+        List<Boolean> visitedStopoverPoints = new ArrayList<>();
+
+        for (ButtonGroup stopoverPointsAchievementCheckButtonGroup
+            : stopoverPointsAchievementCheckButtonGroups) {
+          Boolean visitedStopoverPoint = stopoverPointsAchievementCheckButtonGroup
+              .getSelection().getActionCommand().equals("달성");
+
+          visitedStopoverPoints.add(visitedStopoverPoint);
+        }
+
         boolean achievedExerciseDistance = exerciseDistanceAchievementCheckButtonGroup
             .getSelection().getActionCommand().equals("달성");
         boolean finalResult = finalResultCheckButtonGroup
@@ -215,7 +256,7 @@ public class EditExerciseRecordPostPanel extends JPanel {
             .getSelection().getActionCommand().equals("공개");
 
         ExerciseRecordPost exerciseRecordPost = new ExerciseRecordPost(
-            exercisePlanPost, achievedExerciseTime, visitedAllStopoverPoints,
+            exercisePlanPost, achievedExerciseTime, visitedStopoverPoints,
             achievedExerciseDistance, finalResult, description,
             isPublicPost
         );
@@ -236,8 +277,17 @@ public class EditExerciseRecordPostPanel extends JPanel {
       if (mode == EditExerciseRecordPostPanel.MODIFICATION) {
         boolean achievedExerciseTime = exerciseTimeAchievementCheckButtonGroup
             .getSelection().getActionCommand().equals("달성");
-        boolean visitedAllStopoverPoints = stopoverPointsAchievementCheckButtonGroup
-            .getSelection().getActionCommand().equals("달성");
+
+        List<Boolean> visitedStopoverPoints = new ArrayList<>();
+
+        for (ButtonGroup stopoverPointsAchievementCheckButtonGroup
+            : stopoverPointsAchievementCheckButtonGroups) {
+          Boolean visitedStopoverPoint = stopoverPointsAchievementCheckButtonGroup
+              .getSelection().getActionCommand().equals("달성");
+
+          visitedStopoverPoints.add(visitedStopoverPoint);
+        }
+
         boolean achievedExerciseDistance = exerciseDistanceAchievementCheckButtonGroup
             .getSelection().getActionCommand().equals("달성");
         boolean finalResult = finalResultCheckButtonGroup
@@ -249,7 +299,7 @@ public class EditExerciseRecordPostPanel extends JPanel {
         for (ExerciseRecordPost found : exerciseRecordPosts) {
           if (found.uniqueNumber() == toBeModified.uniqueNumber()) {
             found.modifyAchievedExerciseTime(achievedExerciseTime);
-            found.modifyVisitedAllStopoverPoints(visitedAllStopoverPoints);
+            found.modifyVisitedStopoverPoints(visitedStopoverPoints);
             found.modifyAchievedExerciseDistance(achievedExerciseDistance);
             found.modifyFinalResult(finalResult);
             found.modifyDescription(description);

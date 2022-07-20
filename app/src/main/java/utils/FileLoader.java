@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -39,7 +40,11 @@ public class FileLoader {
       String date = components[3];
       String exerciseType = components[4];
       String exerciseTime = components[5];
-      String stopoverPoints = components[6];
+
+      List<String> stopoverPoints = new ArrayList<>(
+          Arrays.stream(components[6].split("/")).toList()
+      );
+
       String exerciseDistance = components[7];
       String description = components[8];
 
@@ -56,7 +61,7 @@ public class FileLoader {
   }
 
   public List<ExerciseRecordPost> loadExerciseRecordPosts(
-      List<ExercisePlanPost> exercisePlanPosts) throws FileNotFoundException{
+      List<ExercisePlanPost> exercisePlanPosts) throws FileNotFoundException {
     File file = new File("data/exercise-record-posts.csv");
 
     Scanner scanner = new Scanner(file);
@@ -80,7 +85,15 @@ public class FileLoader {
       boolean deleted = Boolean.parseBoolean(components[1]);
 
       boolean achievedExerciseTime = Boolean.parseBoolean(components[2]);
-      boolean visitedAllStopoverPoints = Boolean.parseBoolean(components[3]);
+
+      String[] visitedStopoverPointsBeforeCasting = components[3].split("/");
+
+      List<Boolean> visitedStopoverPoints = new ArrayList<>();
+
+      for (String visitedStopoverPoint : visitedStopoverPointsBeforeCasting) {
+        visitedStopoverPoints.add(Boolean.parseBoolean(visitedStopoverPoint));
+      }
+
       boolean achievedExerciseDistance = Boolean.parseBoolean(components[4]);
       boolean finalResult = Boolean.parseBoolean(components[5]);
       String description = components[6];
@@ -89,7 +102,7 @@ public class FileLoader {
 
       ExerciseRecordPost exerciseRecordPost = new ExerciseRecordPost(
           exercisePlanPost, uniqueNumber, deleted,
-          achievedExerciseTime, visitedAllStopoverPoints, achievedExerciseDistance,
+          achievedExerciseTime, visitedStopoverPoints, achievedExerciseDistance,
           finalResult, description, isPublicPost
       );
 
@@ -120,7 +133,9 @@ public class FileLoader {
           + exercisePlanPost.date() + ","
           + exercisePlanPost.exerciseType() + ","
           + exercisePlanPost.exerciseTime() + ","
-          + exercisePlanPost.stopoverPoints() + ","
+
+          + String.join("/", exercisePlanPost.stopoverPoints()) + ","
+
           + exercisePlanPost.exerciseDistance() + ","
           + exercisePlanPost.description() + "\n";
 
@@ -135,10 +150,22 @@ public class FileLoader {
     FileWriter fileWriter = new FileWriter("data/exercise-record-posts.csv");
 
     for (ExerciseRecordPost exerciseRecordPost : exerciseRecordPosts) {
+      List<Boolean> visitedStopoverPoints = exerciseRecordPost.visitedStopoverPoints();
+
+      String visitedStopoverPointsAfterJoining = "";
+
+      for (Boolean visitedStopoverPoint : visitedStopoverPoints) {
+        visitedStopoverPointsAfterJoining += visitedStopoverPoint + "/";
+      }
+
+      visitedStopoverPointsAfterJoining = visitedStopoverPointsAfterJoining.substring(
+          0, visitedStopoverPointsAfterJoining.length() - 1
+      );
+
       String line = exerciseRecordPost.uniqueNumber() + ","
           + exerciseRecordPost.deleted() + ","
           + exerciseRecordPost.achievedExerciseTime() + ","
-          + exerciseRecordPost.visitedAllStopoverPoints() + ","
+          + visitedStopoverPointsAfterJoining + ","
           + exerciseRecordPost.achievedExerciseDistance() + ","
           + exerciseRecordPost.finalResult() + ","
           + exerciseRecordPost.description() + ","

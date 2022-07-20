@@ -43,17 +43,32 @@ public class ExerciseRecordPostPanel extends JPanel {
     JLabel exerciseTimeLabel = new JLabel("목표 운동 시간: " + exerciseRecordPost.exercisePlanPost().exerciseTime());
     exerciseTimeAchievementPanel.add(exerciseTimeLabel);
     JLabel exerciseTimeAchievementLabel = new JLabel("달성 여부: "
-    + (exerciseRecordPost.achievedExerciseTime() ? "달성" : "실패"));
+        + (exerciseRecordPost.achievedExerciseTime() ? "달성" : "실패"));
     exerciseTimeAchievementPanel.add(exerciseTimeAchievementLabel);
     this.add(exerciseTimeAchievementPanel);
 
     JPanel stopoverPointsAchievementPanel = new JPanel();
     stopoverPointsAchievementPanel.setLayout(new GridLayout(0, 1));
-    JLabel stopoverPointsLabel = new JLabel("목표 경유 장소: " + exerciseRecordPost.exercisePlanPost().stopoverPoints());
+
+    JLabel stopoverPointsLabel = new JLabel("목표 경유 장소 달성 여부");
     stopoverPointsAchievementPanel.add(stopoverPointsLabel);
-    JLabel stopoverPointsAchievementLabel = new JLabel("달성 여부: "
-        + (exerciseRecordPost.visitedAllStopoverPoints() ? "달성" : "실패"));
-    stopoverPointsAchievementPanel.add(stopoverPointsAchievementLabel);
+
+    for (int i = 0; i < exerciseRecordPost.exercisePlanPost().stopoverPoints().size(); i += 1) {
+      JPanel stopoverPointAchievementPanel = new JPanel();
+      stopoverPointAchievementPanel.setLayout(new GridLayout(0, 1));
+
+      String stopoverPoint = exerciseRecordPost.exercisePlanPost().stopoverPoints().get(i);
+      boolean visitedStopoverPoint = exerciseRecordPost.visitedStopoverPoints().get(i);
+
+      JLabel stopoverPointAchievementLabel = new JLabel(
+          "경유지 " + (i + 1) + stopoverPoint + ": "
+              + (visitedStopoverPoint ? "달성" : "실패")
+      );
+      stopoverPointAchievementPanel.add(stopoverPointAchievementLabel);
+
+      stopoverPointsAchievementPanel.add(stopoverPointAchievementPanel);
+    }
+
     this.add(stopoverPointsAchievementPanel);
 
     JPanel exerciseDistanceAchievementPanel = new JPanel();
@@ -103,7 +118,10 @@ public class ExerciseRecordPostPanel extends JPanel {
         }
       }
 
-      //TODO: 삭제하기 버튼 눌렀을 때 할 일 추가
+      JPanel seeExerciseRecordPostsPanel = new SeeExerciseRecordPostsPanel(
+          exercisePlanPosts, exerciseRecordPosts
+      );
+      AerobicExerciseRecords.mainFrame().showContentPanel(seeExerciseRecordPostsPanel);
     });
     buttonsPanel.add(deleteButton);
     this.add(buttonsPanel);

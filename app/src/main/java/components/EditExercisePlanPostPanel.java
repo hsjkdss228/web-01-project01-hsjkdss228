@@ -6,6 +6,7 @@ import models.ExerciseRecordPost;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class EditExercisePlanPostPanel extends JPanel {
@@ -16,9 +17,13 @@ public class EditExercisePlanPostPanel extends JPanel {
 
   private JTextField titleTextField;
   private JTextField dateTextField;
-  private JTextField exerciseTypeTextField;
+  private ButtonGroup exerciseTypeButtonGroup;
   private JTextField exerciseTimeTextField;
+
   private JTextField stopoverPointsTextField;
+  private List<String> stopoverPoints;
+  private JPanel addedStopoverPointsPanel;
+
   private JTextField exerciseDistanceTextField;
   private JTextArea descriptionTextArea;
 
@@ -38,9 +43,9 @@ public class EditExercisePlanPostPanel extends JPanel {
     this.add(backButton);
     createTitlePanel("");
     createDatePanel("");
-    createExerciseTypePanel("");
+    createExerciseTypePanel();
     createExerciseTimePanel("");
-    createStopoverPointPanel("");
+    createStopoverPointsPanel(EditExercisePlanPostPanel.CREATION, null);
     createDistancePanel("");
     createDescriptionPanel("");
     createButtonsPanel(mode, null, exerciseRecordPosts);
@@ -63,9 +68,11 @@ public class EditExercisePlanPostPanel extends JPanel {
     this.add(backButton);
     createTitlePanel(exercisePlanPost.title());
     createDatePanel(exercisePlanPost.date());
-    createExerciseTypePanel(exercisePlanPost.exerciseType());
+    createExerciseTypePanel();
     createExerciseTimePanel(exercisePlanPost.exerciseTime());
-    createStopoverPointPanel(exercisePlanPost.stopoverPoints());
+    createStopoverPointsPanel(
+        EditExercisePlanPostPanel.MODIFICATION, exercisePlanPost.stopoverPoints()
+    );
     createDistancePanel(exercisePlanPost.exerciseDistance());
     createDescriptionPanel(exercisePlanPost.description());
     createButtonsPanel(mode, exercisePlanPost, exerciseRecordPosts);
@@ -87,11 +94,32 @@ public class EditExercisePlanPostPanel extends JPanel {
     this.add(datePanel);
   }
 
-  public void createExerciseTypePanel(String text) {
+  public void createExerciseTypePanel() {
     JPanel exerciseTypePanel = new JPanel();
     exerciseTypePanel.add(new JLabel("운동 종류: "));
-    exerciseTypeTextField = new JTextField(text, 15);
-    exerciseTypePanel.add(exerciseTypeTextField);
+
+    exerciseTypeButtonGroup = new ButtonGroup();
+
+    JRadioButton walkingButton = new JRadioButton("걷기");
+    walkingButton.setActionCommand("걷기");
+    exerciseTypeButtonGroup.add(walkingButton);
+    exerciseTypePanel.add(walkingButton);
+
+    JRadioButton runningButton = new JRadioButton("달리기");
+    runningButton.setActionCommand("달리기");
+    exerciseTypeButtonGroup.add(runningButton);
+    exerciseTypePanel.add(runningButton);
+
+    JRadioButton cyclingButton = new JRadioButton("자전거");
+    cyclingButton.setActionCommand("자전거");
+    exerciseTypeButtonGroup.add(cyclingButton);
+    exerciseTypePanel.add(cyclingButton);
+
+    JRadioButton climbingButton = new JRadioButton("등산");
+    climbingButton.setActionCommand("등산");
+    exerciseTypeButtonGroup.add(climbingButton);
+    exerciseTypePanel.add(climbingButton);
+
     this.add(exerciseTypePanel);
   }
 
@@ -103,12 +131,57 @@ public class EditExercisePlanPostPanel extends JPanel {
     this.add(exerciseTimePanel);
   }
 
-  public void createStopoverPointPanel(String text) {
+  public void createStopoverPointsPanel(int mode, List<String> existingStopoverPoints) {
+    stopoverPoints = mode == EditExercisePlanPostPanel.CREATION
+        ? new ArrayList<>()
+        : new ArrayList<>(existingStopoverPoints);
+
     JPanel stopoverPointsPanel = new JPanel();
-    stopoverPointsPanel.add(new JLabel("목표 경유 장소: "));
-    stopoverPointsTextField = new JTextField(text, 15);
-    stopoverPointsPanel.add(stopoverPointsTextField);
+    stopoverPointsPanel.setLayout(new BorderLayout());
+
+    JPanel inputStopoverPointPanel = new JPanel();
+    addedStopoverPointsPanel = new JPanel();
+
+    inputStopoverPointPanel.add(new JLabel("목표 경유 장소: "));
+
+    stopoverPointsTextField = new JTextField(15);
+    inputStopoverPointPanel.add(stopoverPointsTextField);
+
+    JButton addStopoverPointButton = new JButton("추가");
+    addStopoverPointButton.addActionListener(event -> {
+      stopoverPoints.add(stopoverPointsTextField.getText());
+      stopoverPointsTextField.setText("");
+
+      updateAddedStopoverPointsPanel();
+    });
+    inputStopoverPointPanel.add(addStopoverPointButton);
+
+    stopoverPointsPanel.add(inputStopoverPointPanel, BorderLayout.PAGE_START);
+
+    updateAddedStopoverPointsPanel();
+
+    stopoverPointsPanel.add(addedStopoverPointsPanel);
+
     this.add(stopoverPointsPanel);
+  }
+
+  public void updateAddedStopoverPointsPanel() {
+    addedStopoverPointsPanel.removeAll();
+
+    for (String stopoverPoint : stopoverPoints) {
+      JPanel stopoverPointPanel = new JPanel();
+      stopoverPointPanel.add(new JLabel(stopoverPoint));
+      JButton deleteButton = new JButton("X");
+      deleteButton.addActionListener(event -> {
+        stopoverPoints.remove(stopoverPoint);
+        updateAddedStopoverPointsPanel();
+      });
+      stopoverPointPanel.add(deleteButton);
+      addedStopoverPointsPanel.add(stopoverPointPanel);
+    }
+
+    addedStopoverPointsPanel.setVisible(false);
+    addedStopoverPointsPanel.setVisible(true);
   }
 
   public void createDistancePanel(String text) {
@@ -142,33 +215,44 @@ public class EditExercisePlanPostPanel extends JPanel {
       if (mode == EditExercisePlanPostPanel.CREATION) {
         titleTextField.setText("");
         dateTextField.setText("");
-        exerciseTypeTextField.setText("");
+        exerciseTypeButtonGroup.clearSelection();
         exerciseTimeTextField.setText("");
+
         stopoverPointsTextField.setText("");
+        stopoverPoints = new ArrayList<>();
+        updateAddedStopoverPointsPanel();
+
         exerciseDistanceTextField.setText("");
         descriptionTextArea.setText("");
       }
 
       if (mode == EditExercisePlanPostPanel.MODIFICATION) {
+        //TODO: 수정 모드에서 초기화 버튼 누르면 운동 타입이 원래 선택되어 있던 것으로
+        // 리셋해줄 수 있었으면 좋겠음, 근데 ㄱㄴ? editor랑 modifier를 분리해야 할 수도?
         titleTextField.setText(toBeModified.title());
         dateTextField.setText(toBeModified.date());
-        exerciseTypeTextField.setText(toBeModified.exerciseType());
+        exerciseTypeButtonGroup.clearSelection();
         exerciseTimeTextField.setText(toBeModified.exerciseTime());
-        stopoverPointsTextField.setText(toBeModified.stopoverPoints());
+
+        stopoverPointsTextField.setText("");
+        stopoverPoints = toBeModified.stopoverPoints();
+        updateAddedStopoverPointsPanel();
+
         exerciseDistanceTextField.setText(toBeModified.exerciseDistance());
         descriptionTextArea.setText(toBeModified.description());
       }
     });
     buttonsPanel.add(cancelButton, BorderLayout.WEST);
+
     JButton registerButton = new JButton("등록하기");
     registerButton.addActionListener(event -> {
       if (mode == EditExercisePlanPostPanel.CREATION) {
         ExercisePlanPost exercisePlanPost = new ExercisePlanPost(
             titleTextField.getText(),
             dateTextField.getText(),
-            exerciseTypeTextField.getText(),
+            exerciseTypeButtonGroup.getSelection().getActionCommand(),
             exerciseTimeTextField.getText(),
-            stopoverPointsTextField.getText(),
+            stopoverPoints,
             exerciseDistanceTextField.getText(),
             descriptionTextArea.getText()
         );
@@ -180,9 +264,11 @@ public class EditExercisePlanPostPanel extends JPanel {
           if (found.uniqueNumber() == toBeModified.uniqueNumber()) {
             found.modifyTitle(titleTextField.getText());
             found.modifyDate(dateTextField.getText());
-            found.modifyExerciseType(exerciseTypeTextField.getText());
+            found.modifyExerciseType(
+                exerciseTypeButtonGroup.getSelection().getActionCommand()
+            );
             found.modifyExerciseTime(exerciseTimeTextField.getText());
-            found.modifyStopoverPoints(stopoverPointsTextField.getText());
+            found.modifyStopoverPoints(stopoverPoints);
             found.modifyExerciseDistance(exerciseDistanceTextField.getText());
             found.modifyDescription(descriptionTextArea.getText());
             break;
