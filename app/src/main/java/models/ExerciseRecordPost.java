@@ -1,5 +1,7 @@
 package models;
 
+import java.util.List;
+
 public class ExerciseRecordPost {
   private ExercisePlanPost exercisePlanPost;
 
@@ -7,7 +9,7 @@ public class ExerciseRecordPost {
   private boolean deleted;
 
   private boolean achievedExerciseTime;
-  private boolean visitedAllStopoverPoints;
+  private List<Boolean> visitedStopoverPoints;
   private boolean achievedExerciseDistance;
   private boolean finalResult;
   private String description;
@@ -16,7 +18,7 @@ public class ExerciseRecordPost {
 
   public ExerciseRecordPost(
       ExercisePlanPost exercisePlanPost,
-      boolean achievedExerciseTime, boolean visitedAllStopoverPoints,
+      boolean achievedExerciseTime, List<Boolean> visitedStopoverPoints,
       boolean achievedExerciseDistance, boolean finalResult,
       String description, boolean isPublicPost) {
     this.exercisePlanPost = exercisePlanPost;
@@ -25,7 +27,7 @@ public class ExerciseRecordPost {
     this.deleted = false;
 
     this.achievedExerciseTime = achievedExerciseTime;
-    this.visitedAllStopoverPoints = visitedAllStopoverPoints;
+    this.visitedStopoverPoints = visitedStopoverPoints;
     this.achievedExerciseDistance = achievedExerciseDistance;
     this.finalResult = finalResult;
     this.description = description;
@@ -35,7 +37,7 @@ public class ExerciseRecordPost {
 
   public ExerciseRecordPost(
       ExercisePlanPost exercisePlanPost, int uniqueNumber, boolean deleted,
-      boolean achievedExerciseTime, boolean visitedAllStopoverPoints,
+      boolean achievedExerciseTime, List<Boolean> visitedStopoverPoints,
       boolean achievedExerciseDistance, boolean finalResult,
       String description, boolean isPublicPost) {
     this.exercisePlanPost = exercisePlanPost;
@@ -44,7 +46,7 @@ public class ExerciseRecordPost {
     this.deleted = deleted;
 
     this.achievedExerciseTime = achievedExerciseTime;
-    this.visitedAllStopoverPoints = visitedAllStopoverPoints;
+    this.visitedStopoverPoints = visitedStopoverPoints;
     this.achievedExerciseDistance = achievedExerciseDistance;
     this.finalResult = finalResult;
     this.description = description;
@@ -68,8 +70,8 @@ public class ExerciseRecordPost {
     return achievedExerciseTime;
   }
 
-  public boolean visitedAllStopoverPoints() {
-    return visitedAllStopoverPoints;
+  public List<Boolean> visitedStopoverPoints() {
+    return visitedStopoverPoints;
   }
 
   public boolean achievedExerciseDistance() {
@@ -96,8 +98,8 @@ public class ExerciseRecordPost {
     this.achievedExerciseTime = achievedExerciseTime;
   }
 
-  public void modifyVisitedAllStopoverPoints(boolean visitedAllStopoverPoints) {
-    this.visitedAllStopoverPoints = visitedAllStopoverPoints;
+  public void modifyVisitedStopoverPoints(List<Boolean> visitedStopoverPoints) {
+    this.visitedStopoverPoints = visitedStopoverPoints;
   }
 
   public void modifyAchievedExerciseDistance(boolean achievedExerciseDistance) {
