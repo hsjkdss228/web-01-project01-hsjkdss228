@@ -36,8 +36,15 @@ public class ExercisePlanPostPanel extends JPanel {
     JLabel exerciseTimeLabel = new JLabel(exercisePlanPost.exerciseTime());
     this.add(exerciseTimeLabel);
 
-    JLabel stopoverPointsLabel = new JLabel(exercisePlanPost.stopoverPoints());
-    this.add(stopoverPointsLabel);
+    JPanel stopoverPointsPanel = new JPanel();
+    stopoverPointsPanel.setLayout(new GridLayout(0, 1));
+    for (String stopoverPoint : exercisePlanPost.stopoverPoints()) {
+      JLabel stopoverPointLabel = new JLabel("경유지 "
+          + (exercisePlanPost.stopoverPoints().indexOf(stopoverPoint) + 1)
+          + ": " + stopoverPoint);
+      stopoverPointsPanel.add(stopoverPointLabel);
+    }
+    this.add(stopoverPointsPanel);
 
     JLabel exerciseDistanceLabel = new JLabel(exercisePlanPost.exerciseDistance());
     this.add(exerciseDistanceLabel);
