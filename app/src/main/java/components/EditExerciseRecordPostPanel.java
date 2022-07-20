@@ -48,7 +48,7 @@ public class EditExerciseRecordPostPanel extends JPanel {
     createFinalResultCheckPanel();
     createDescriptionPanel("");
     createPrivacyStateCheckPanel();
-    createButtonsPanel(mode, exercisePlanPost, null);
+    createButtonsPanel(mode, exercisePlanPost, null, exercisePlanPosts, exerciseRecordPosts);
 
     this.setVisible(true);
   }
@@ -78,7 +78,7 @@ public class EditExerciseRecordPostPanel extends JPanel {
     createFinalResultCheckPanel();
     createDescriptionPanel(exerciseRecordPost.description());
     createPrivacyStateCheckPanel();
-    createButtonsPanel(mode, null, exerciseRecordPost);
+    createButtonsPanel(mode, null, exerciseRecordPost, exercisePlanPosts, exerciseRecordPosts);
 
 //    restoreCheckButtonGroup(exerciseTimeAchievementCheckButtonGroup, exerciseRecordPost.achievedExerciseTime());
 //    restoreCheckButtonGroup(stopoverPointsAchievementCheckButtonGroup, exerciseRecordPost.visitedAllStopoverPoints());
@@ -199,23 +199,25 @@ public class EditExerciseRecordPostPanel extends JPanel {
     this.add(privacyStateCheckPanel);
   }
 
-  public void createButtonsPanel(int mode, ExercisePlanPost exercisePlanPost, ExerciseRecordPost toBeModified) {
+  public void createButtonsPanel(
+      int mode, ExercisePlanPost exercisePlanPost, ExerciseRecordPost toBeModified,
+      List<ExercisePlanPost> exercisePlanPosts, List<ExerciseRecordPost> exerciseRecordPosts) {
     JPanel buttonsPanel = new JPanel();
     buttonsPanel.setLayout(new BorderLayout());
     JButton cancelButton = new JButton("초기화");
     cancelButton.addActionListener(event -> {
 //      if (mode == EditExerciseRecordPostPanel.CREATION) {
-        exerciseTimeAchievementCheckButtonGroup.clearSelection();
+      exerciseTimeAchievementCheckButtonGroup.clearSelection();
 
-        for (ButtonGroup stopoverPointsAchievementCheckButtonGroup
-            : stopoverPointsAchievementCheckButtonGroups) {
-          stopoverPointsAchievementCheckButtonGroup.clearSelection();
-        }
+      for (ButtonGroup stopoverPointsAchievementCheckButtonGroup
+          : stopoverPointsAchievementCheckButtonGroups) {
+        stopoverPointsAchievementCheckButtonGroup.clearSelection();
+      }
 
-        exerciseDistanceAchievementCheckButtonGroup.clearSelection();
-        finalResultCheckButtonGroup.clearSelection();
-        descriptionTextArea.setText("");
-        privacyStateCheckButtonGroup.clearSelection();
+      exerciseDistanceAchievementCheckButtonGroup.clearSelection();
+      finalResultCheckButtonGroup.clearSelection();
+      descriptionTextArea.setText("");
+      privacyStateCheckButtonGroup.clearSelection();
 //      }
 
       if (mode == EditExerciseRecordPostPanel.MODIFICATION) {
@@ -228,6 +230,7 @@ public class EditExerciseRecordPostPanel extends JPanel {
       }
     });
     buttonsPanel.add(cancelButton, BorderLayout.WEST);
+
     JButton registerButton = new JButton("등록하기");
     registerButton.addActionListener(event -> {
       if (mode == EditExerciseRecordPostPanel.CREATION) {
