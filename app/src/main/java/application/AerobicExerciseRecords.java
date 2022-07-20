@@ -1,14 +1,12 @@
 package application;
 
-import frames.MainFrame;
+import components.MainFrame;
 import models.ExercisePlanPost;
 import models.ExerciseRecordPost;
 import utils.FileLoader;
 import utils.UniqueNumberManager;
 
-import javax.swing.*;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class AerobicExerciseRecords {
@@ -17,7 +15,12 @@ public class AerobicExerciseRecords {
 
   private FileLoader fileLoader;
 
-  private JFrame mainFrame;
+  private static MainFrame mainFrame;
+
+  public static void main(String[] args) throws FileNotFoundException {
+    AerobicExerciseRecords application = new AerobicExerciseRecords();
+    application.run();
+  }
 
   public AerobicExerciseRecords() throws FileNotFoundException {
     fileLoader = new FileLoader();
@@ -28,12 +31,11 @@ public class AerobicExerciseRecords {
     exerciseRecordPosts = fileLoader.loadExerciseRecordPosts(exercisePlanPosts);
   }
 
-  public static void main(String[] args) throws FileNotFoundException {
-    AerobicExerciseRecords application = new AerobicExerciseRecords();
-    application.run();
-  }
-
   public void run() {
     mainFrame = new MainFrame(exercisePlanPosts, exerciseRecordPosts, fileLoader);
+  }
+
+  public static MainFrame mainFrame() {
+    return mainFrame;
   }
 }

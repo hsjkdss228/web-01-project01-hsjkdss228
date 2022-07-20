@@ -1,5 +1,6 @@
-package frames;
+package components;
 
+import application.AerobicExerciseRecords;
 import models.ExercisePlanPost;
 import models.ExerciseRecordPost;
 
@@ -7,14 +8,21 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
-public class ExercisePlanPostFrame extends JFrame {
-  public ExercisePlanPostFrame(
+public class ExercisePlanPostPanel extends JPanel {
+  public ExercisePlanPostPanel(
       List<ExercisePlanPost> exercisePlanPosts,
       ExercisePlanPost exercisePlanPost,
       List<ExerciseRecordPost> exerciseRecordPosts) {
-    this.setSize(500, 500);
-    this.setLocation(700, 70);
     this.setLayout(new GridLayout(0, 1));
+
+    JButton backButton = new JButton("뒤로가기");
+    backButton.addActionListener(event -> {
+      JPanel seeExercisePlanPostsPanel = new SeeExercisePlanPostsPanel(
+          exercisePlanPosts, exerciseRecordPosts
+      );
+      AerobicExerciseRecords.mainFrame().showContentPanel(seeExercisePlanPostsPanel);
+    });
+    this.add(backButton);
 
     JLabel titleLabel = new JLabel(exercisePlanPost.title());
     this.add(titleLabel);
@@ -50,11 +58,10 @@ public class ExercisePlanPostFrame extends JFrame {
     buttonsPanel.setLayout(new GridLayout(1, 3));
     JButton modifyButton = new JButton("수정하기");
     modifyButton.addActionListener(event -> {
-      EditExercisePlanPostFrame editExercisePlanPostFrame = new EditExercisePlanPostFrame(
-          exercisePlanPosts, exercisePlanPost, EditExercisePlanPostFrame.MODIFICATION
+      JPanel editExercisePlanPostPanel = new EditExercisePlanPostPanel(
+          exercisePlanPosts, exercisePlanPost, exerciseRecordPosts, EditExercisePlanPostPanel.MODIFICATION
       );
-
-      this.dispose();
+      AerobicExerciseRecords.mainFrame().showContentPanel(editExercisePlanPostPanel);
     });
     buttonsPanel.add(modifyButton);
     JButton deleteButton = new JButton("삭제하기");
@@ -65,21 +72,20 @@ public class ExercisePlanPostFrame extends JFrame {
           break;
         }
       }
-
-      this.dispose();
+      JPanel seeExercisePlanPostsPanel = new SeeExercisePlanPostsPanel(
+          exercisePlanPosts, exerciseRecordPosts
+      );
+      AerobicExerciseRecords.mainFrame().showContentPanel(seeExercisePlanPostsPanel);
     });
     buttonsPanel.add(deleteButton);
     JButton createExerciseRecordPostButton = new JButton("결과 기록하기");
     createExerciseRecordPostButton.addActionListener(event -> {
-      EditExerciseRecordPostFrame editExerciseRecordPostFrame = new EditExerciseRecordPostFrame(
-        exercisePlanPosts, exercisePlanPost, exerciseRecordPosts, EditExerciseRecordPostFrame.CREATION
+      JPanel editExerciseRecordPostPanel = new EditExerciseRecordPostPanel(
+        exercisePlanPosts, exercisePlanPost, exerciseRecordPosts, EditExerciseRecordPostPanel.CREATION
       );
-
-      this.dispose();
+      AerobicExerciseRecords.mainFrame().showContentPanel(editExerciseRecordPostPanel);
     });
     buttonsPanel.add(createExerciseRecordPostButton);
     this.add(buttonsPanel);
-
-    this.setVisible(true);
   }
 }

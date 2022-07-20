@@ -1,5 +1,6 @@
-package frames;
+package components;
 
+import application.AerobicExerciseRecords;
 import models.ExercisePlanPost;
 import models.ExerciseRecordPost;
 
@@ -7,13 +8,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
-public class EditExerciseRecordPostFrame extends JFrame {
+public class EditExerciseRecordPostPanel extends JPanel {
   public static final int CREATION = 1;
   public static final int MODIFICATION = 2;
 
   List<ExercisePlanPost> exercisePlanPosts;
   List<ExerciseRecordPost> exerciseRecordPosts;
-  
+
   private ButtonGroup exerciseTimeAchievementCheckButtonGroup;
   private ButtonGroup stopoverPointsAchievementCheckButtonGroup;
   private ButtonGroup exerciseDistanceAchievementCheckButtonGroup;
@@ -21,16 +22,22 @@ public class EditExerciseRecordPostFrame extends JFrame {
   private JTextArea descriptionTextArea;
   private ButtonGroup privacyStateCheckButtonGroup;
 
-  public EditExerciseRecordPostFrame(
+  public EditExerciseRecordPostPanel(
       List<ExercisePlanPost> exercisePlanPosts, ExercisePlanPost exercisePlanPost,
       List<ExerciseRecordPost> exerciseRecordPosts, int mode) {
     this.exercisePlanPosts = exercisePlanPosts;
     this.exerciseRecordPosts = exerciseRecordPosts;
 
-    this.setSize(500, 500);
-    this.setLocation(200, 150);
     this.setLayout(new GridLayout(0, 1));
 
+    JButton backButton = new JButton("뒤로가기");
+    backButton.addActionListener(event -> {
+      JPanel exercisePlanPostPanel = new ExercisePlanPostPanel(
+          exercisePlanPosts, exercisePlanPost, exerciseRecordPosts
+      );
+      AerobicExerciseRecords.mainFrame().showContentPanel(exercisePlanPostPanel);
+    });
+    this.add(backButton);
     this.add(new JLabel(exercisePlanPost.title() + " 결과 기록하기"));
     this.add(new JLabel("날짜: " + exercisePlanPost.date()));
     this.add(new JLabel("운동 종류: " + exercisePlanPost.exerciseType()));
@@ -45,15 +52,22 @@ public class EditExerciseRecordPostFrame extends JFrame {
     this.setVisible(true);
   }
 
-  public EditExerciseRecordPostFrame(
+  public EditExerciseRecordPostPanel(
+      List<ExercisePlanPost> exercisePlanPosts,
       List<ExerciseRecordPost> exerciseRecordPosts,
       ExerciseRecordPost exerciseRecordPost, int mode) {
     this.exerciseRecordPosts = exerciseRecordPosts;
 
-    this.setSize(500, 500);
-    this.setLocation(200, 150);
     this.setLayout(new GridLayout(0, 1));
 
+    JButton backButton = new JButton("뒤로가기");
+    backButton.addActionListener(event -> {
+      JPanel exerciseRecordPostPanel = new ExerciseRecordPostPanel(
+          exercisePlanPosts, exerciseRecordPosts, exerciseRecordPost
+      );
+      AerobicExerciseRecords.mainFrame().showContentPanel(exerciseRecordPostPanel);
+    });
+    this.add(backButton);
     this.add(new JLabel(exerciseRecordPost.exercisePlanPost().title() + " 결과 기록하기"));
     this.add(new JLabel("날짜: " + exerciseRecordPost.exercisePlanPost().date()));
     this.add(new JLabel("운동 종류: " + exerciseRecordPost.exercisePlanPost().exerciseType()));
@@ -65,8 +79,11 @@ public class EditExerciseRecordPostFrame extends JFrame {
     createPrivacyStateCheckPanel();
     createButtonsPanel(mode, null, exerciseRecordPost);
 
-    this.setVisible(true);
-
+//    restoreCheckButtonGroup(exerciseTimeAchievementCheckButtonGroup, exerciseRecordPost.achievedExerciseTime());
+//    restoreCheckButtonGroup(stopoverPointsAchievementCheckButtonGroup, exerciseRecordPost.visitedAllStopoverPoints());
+//    restoreCheckButtonGroup(exerciseDistanceAchievementCheckButtonGroup, exerciseRecordPost.achievedExerciseDistance());
+//    restoreCheckButtonGroup(finalResultCheckButtonGroup, exerciseRecordPost.finalResult());
+//    restoreCheckButtonGroup(privacyStateCheckButtonGroup, exerciseRecordPost.isPublicPost());
   }
 
   public void createExerciseTimeAchievementCheckPanel(String exerciseTime) {
@@ -161,14 +178,30 @@ public class EditExerciseRecordPostFrame extends JFrame {
   public void createButtonsPanel(int mode, ExercisePlanPost exercisePlanPost, ExerciseRecordPost toBeModified) {
     JPanel buttonsPanel = new JPanel();
     buttonsPanel.setLayout(new BorderLayout());
-    JButton cancelButton = new JButton("취소");
+    JButton cancelButton = new JButton("초기화");
     cancelButton.addActionListener(event -> {
-      this.dispose();
+//      if (mode == EditExerciseRecordPostPanel.CREATION) {
+        exerciseTimeAchievementCheckButtonGroup.clearSelection();
+        stopoverPointsAchievementCheckButtonGroup.clearSelection();
+        exerciseDistanceAchievementCheckButtonGroup.clearSelection();
+        finalResultCheckButtonGroup.clearSelection();
+        descriptionTextArea.setText("");
+        privacyStateCheckButtonGroup.clearSelection();
+//      }
+
+      if (mode == EditExerciseRecordPostPanel.MODIFICATION) {
+//        restoreCheckButtonGroup(exerciseTimeAchievementCheckButtonGroup, toBeModified.achievedExerciseTime());
+//        restoreCheckButtonGroup(stopoverPointsAchievementCheckButtonGroup, toBeModified.visitedAllStopoverPoints());
+//        restoreCheckButtonGroup(exerciseDistanceAchievementCheckButtonGroup, toBeModified.achievedExerciseDistance());
+//        restoreCheckButtonGroup(finalResultCheckButtonGroup, toBeModified.finalResult());
+        descriptionTextArea.setText(toBeModified.description());
+//        restoreCheckButtonGroup(privacyStateCheckButtonGroup, toBeModified.isPublicPost());
+      }
     });
     buttonsPanel.add(cancelButton, BorderLayout.WEST);
     JButton registerButton = new JButton("등록하기");
     registerButton.addActionListener(event -> {
-      if (mode == EditExerciseRecordPostFrame.CREATION) {
+      if (mode == EditExerciseRecordPostPanel.CREATION) {
         boolean achievedExerciseTime = exerciseTimeAchievementCheckButtonGroup
             .getSelection().getActionCommand().equals("달성");
         boolean visitedAllStopoverPoints = stopoverPointsAchievementCheckButtonGroup
@@ -195,9 +228,12 @@ public class EditExerciseRecordPostFrame extends JFrame {
             break;
           }
         }
+
+        JPanel mainMenuPanel = new MainMenuPanel(exercisePlanPosts, exerciseRecordPosts);
+        AerobicExerciseRecords.mainFrame().showContentPanel(mainMenuPanel);
       }
 
-      if (mode == EditExerciseRecordPostFrame.MODIFICATION) {
+      if (mode == EditExerciseRecordPostPanel.MODIFICATION) {
         boolean achievedExerciseTime = exerciseTimeAchievementCheckButtonGroup
             .getSelection().getActionCommand().equals("달성");
         boolean visitedAllStopoverPoints = stopoverPointsAchievementCheckButtonGroup
@@ -221,12 +257,38 @@ public class EditExerciseRecordPostFrame extends JFrame {
             break;
           }
         }
-      }
 
-      this.dispose();
+        JPanel seeExerciseRecordPostsPanel = new SeeExerciseRecordPostsPanel(
+            exercisePlanPosts, exerciseRecordPosts
+        );
+        AerobicExerciseRecords.mainFrame().showContentPanel(seeExerciseRecordPostsPanel);
+      }
     });
     buttonsPanel.add(registerButton, BorderLayout.EAST);
 
     this.add(buttonsPanel);
   }
+
+//  public void restoreCheckButtonGroup(ButtonGroup buttonGroup, boolean checked) {
+//    Enumeration<AbstractButton> elements = buttonGroup.getElements();
+//
+//    AbstractButton achievedRadioButton = elements.nextElement();
+//    System.out.println(achievedRadioButton.getActionCommand());
+//    AbstractButton notAchievedRadioButton = elements.nextElement();
+//    System.out.println(notAchievedRadioButton.getActionCommand());
+//    System.out.println(checked);
+//
+//    buttonGroup.remove(achievedRadioButton);
+//    buttonGroup.remove(notAchievedRadioButton);
+//    if (achievedRadioButton.getActionCommand().equals("달성")
+//        || achievedRadioButton.getActionCommand().equals("공개")
+//        && checked) {
+//      JRadioButton newAchievedRadioButton = new JRadioButton("달성");
+//      achievedRadioButton.setActionCommand("달성");
+//      achievedRadioButton.setSelected()
+//      exerciseDistanceAchievementCheckButtonGroup.add(achievedRadioButton);
+//      return;
+//    }
+//
+//  }
 }
