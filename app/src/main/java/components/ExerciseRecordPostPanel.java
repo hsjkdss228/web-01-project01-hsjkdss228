@@ -16,7 +16,7 @@ public class ExerciseRecordPostPanel extends JPanel {
 
     JButton backButton = new JButton("뒤로가기");
     backButton.addActionListener(event -> {
-      JPanel seeExerciseRecordPostsPanel = new SeeExerciseRecordPostsPanel(
+      JPanel seeExerciseRecordPostsPanel = new ExerciseRecordPostsBoardPanel(
           exercisePlanPosts, exerciseRecordPosts
       );
       AerobicExerciseRecords.mainFrame().replaceContentPanel(seeExerciseRecordPostsPanel);
@@ -120,7 +120,7 @@ public class ExerciseRecordPostPanel extends JPanel {
 
       NotificationDialog dialog = new NotificationDialog();
 
-      JPanel seeExerciseRecordPostsPanel = new SeeExerciseRecordPostsPanel(
+      JPanel seeExerciseRecordPostsPanel = new ExerciseRecordPostsBoardPanel(
           exercisePlanPosts, exerciseRecordPosts
       );
       AerobicExerciseRecords.mainFrame().replaceContentPanel(seeExerciseRecordPostsPanel);

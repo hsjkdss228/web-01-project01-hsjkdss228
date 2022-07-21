@@ -10,8 +10,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
-public class SeeExerciseRecordPostsPanel extends JPanel {
-  public SeeExerciseRecordPostsPanel(
+public class ExercisePlanPostsBoardPanel extends JPanel {
+  public ExercisePlanPostsBoardPanel(
       List<ExercisePlanPost> exercisePlanPosts,
       List<ExerciseRecordPost> exerciseRecordPosts) {
     this.setLayout(new GridLayout(0, 1));
@@ -26,30 +26,26 @@ public class SeeExerciseRecordPostsPanel extends JPanel {
     JPanel postThumbnailsPanel = new JPanel();
     postThumbnailsPanel.setLayout(new GridLayout(0, 1));
 
-    for (ExerciseRecordPost exerciseRecordPost : exerciseRecordPosts) {
-      if (!exerciseRecordPost.deleted()) {
+    for (ExercisePlanPost exercisePlanPost : exercisePlanPosts) {
+      if (!exercisePlanPost.deleted()) {
         JPanel postThumbnailPanel = new JPanel();
 
-        postThumbnailPanel.add(new JLabel(exerciseRecordPost.exercisePlanPost().exerciseType()));
+        postThumbnailPanel.add(new JLabel(exercisePlanPost.exerciseType()));
 
-        JLabel titleLabel = new JLabel(exerciseRecordPost.exercisePlanPost().title() + " 운동 결과");
+        JLabel titleLabel = new JLabel(exercisePlanPost.title());
         titleLabel.setHorizontalAlignment(JLabel.CENTER);
         titleLabel.addMouseListener(new MouseAdapter() {
           @Override
           public void mouseClicked(MouseEvent e) {
-            JPanel exerciseRecordPostPanel = new ExerciseRecordPostPanel(
-                exercisePlanPosts, exerciseRecordPosts, exerciseRecordPost
+            JPanel exercisePlanPostPanel = new ExercisePlanPostPanel(
+                exercisePlanPosts, exercisePlanPost, exerciseRecordPosts
             );
-            AerobicExerciseRecords.mainFrame().replaceContentPanel(exerciseRecordPostPanel);
+            AerobicExerciseRecords.mainFrame().replaceContentPanel(exercisePlanPostPanel);
           }
         });
         postThumbnailPanel.add(titleLabel);
 
-        postThumbnailPanel.add(
-            new JLabel(exerciseRecordPost.finalResult() ? "성공" : "실패")
-        );
-
-        postThumbnailPanel.add(new JLabel(exerciseRecordPost.exercisePlanPost().date()));
+        postThumbnailPanel.add(new JLabel(exercisePlanPost.date()));
 
         postThumbnailsPanel.add(postThumbnailPanel);
       }

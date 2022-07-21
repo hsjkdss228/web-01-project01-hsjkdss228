@@ -347,7 +347,7 @@ public class ExerciseRecordPostEditorPanel extends JPanel {
         }
       }
 
-      JPanel seeExerciseRecordPostsPanel = new SeeExerciseRecordPostsPanel(
+      JPanel seeExerciseRecordPostsPanel = new ExerciseRecordPostsBoardPanel(
           exercisePlanPosts, exerciseRecordPosts
       );
       AerobicExerciseRecords.mainFrame().replaceContentPanel(seeExerciseRecordPostsPanel);

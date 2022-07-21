@@ -42,7 +42,7 @@ public class MainMenuPanel extends JPanel {
     seeExercisePlanPostsButton.setForeground(Color.WHITE);
 
     seeExercisePlanPostsButton.addActionListener(event -> {
-      JPanel seeExercisePlanPostsPanel = new SeeExercisePlanPostsPanel(
+      JPanel seeExercisePlanPostsPanel = new ExercisePlanPostsBoardPanel(
           exercisePlanPosts, exerciseRecordPosts
       );
       AerobicExerciseRecords.mainFrame().replaceContentPanel(seeExercisePlanPostsPanel);
@@ -60,7 +60,7 @@ public class MainMenuPanel extends JPanel {
     seeExerciseRecordPostsButton.setForeground(Color.WHITE);
 
     seeExerciseRecordPostsButton.addActionListener(event -> {
-      JPanel seeExerciseRecordPostsPanel = new SeeExerciseRecordPostsPanel(
+      JPanel seeExerciseRecordPostsPanel = new ExerciseRecordPostsBoardPanel(
           exercisePlanPosts, exerciseRecordPosts
       );
       AerobicExerciseRecords.mainFrame().replaceContentPanel(seeExerciseRecordPostsPanel);

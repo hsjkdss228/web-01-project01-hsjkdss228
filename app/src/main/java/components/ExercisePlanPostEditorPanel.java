@@ -225,6 +225,7 @@ public class ExercisePlanPostEditorPanel extends JPanel {
       stopoverPointPanel.add(new JLabel(stopoverPoint));
 
       JButton deleteButton = new JButton("X");
+      deleteButton.setSize(5, 5);
       deleteButton.addActionListener(event -> {
         stopoverPoints.remove(stopoverPoint);
 
