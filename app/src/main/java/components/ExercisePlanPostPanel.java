@@ -20,7 +20,7 @@ public class ExercisePlanPostPanel extends JPanel {
       JPanel seeExercisePlanPostsPanel = new SeeExercisePlanPostsPanel(
           exercisePlanPosts, exerciseRecordPosts
       );
-      AerobicExerciseRecords.mainFrame().showContentPanel(seeExercisePlanPostsPanel);
+      AerobicExerciseRecords.mainFrame().replaceContentPanel(seeExercisePlanPostsPanel);
     });
     this.add(backButton);
 
@@ -66,10 +66,10 @@ public class ExercisePlanPostPanel extends JPanel {
 
     JButton modifyButton = new JButton("수정하기");
     modifyButton.addActionListener(event -> {
-      JPanel editExercisePlanPostPanel = new EditExercisePlanPostPanel(
-          exercisePlanPosts, exercisePlanPost, exerciseRecordPosts, EditExercisePlanPostPanel.MODIFICATION
+      JPanel editExercisePlanPostPanel = new ExercisePlanPostEditorPanel(
+          exercisePlanPosts, exercisePlanPost, exerciseRecordPosts, ExercisePlanPostEditorPanel.MODIFICATION
       );
-      AerobicExerciseRecords.mainFrame().showContentPanel(editExercisePlanPostPanel);
+      AerobicExerciseRecords.mainFrame().replaceContentPanel(editExercisePlanPostPanel);
     });
     buttonsPanel.add(modifyButton);
 
@@ -87,7 +87,7 @@ public class ExercisePlanPostPanel extends JPanel {
       JPanel seeExercisePlanPostsPanel = new SeeExercisePlanPostsPanel(
           exercisePlanPosts, exerciseRecordPosts
       );
-      AerobicExerciseRecords.mainFrame().showContentPanel(seeExercisePlanPostsPanel);
+      AerobicExerciseRecords.mainFrame().replaceContentPanel(seeExercisePlanPostsPanel);
 
       dialog.showDialog("운동 계획 삭제가 완료되었습니다.");
     });
@@ -95,10 +95,10 @@ public class ExercisePlanPostPanel extends JPanel {
 
     JButton createExerciseRecordPostButton = new JButton("결과 기록하기");
     createExerciseRecordPostButton.addActionListener(event -> {
-      JPanel editExerciseRecordPostPanel = new EditExerciseRecordPostPanel(
-        exercisePlanPosts, exercisePlanPost, exerciseRecordPosts, EditExerciseRecordPostPanel.CREATION
+      JPanel exerciseRecordPostEditorPanel = new ExerciseRecordPostEditorPanel(
+        exercisePlanPosts, exercisePlanPost, exerciseRecordPosts, ExerciseRecordPostEditorPanel.CREATION
       );
-      AerobicExerciseRecords.mainFrame().showContentPanel(editExerciseRecordPostPanel);
+      AerobicExerciseRecords.mainFrame().replaceContentPanel(exerciseRecordPostEditorPanel);
     });
     buttonsPanel.add(createExerciseRecordPostButton);
     this.add(buttonsPanel);

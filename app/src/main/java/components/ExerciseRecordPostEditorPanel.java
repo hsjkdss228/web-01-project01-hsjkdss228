@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
-public class EditExerciseRecordPostPanel extends JPanel {
+public class ExerciseRecordPostEditorPanel extends JPanel {
   public static final int CREATION = 1;
   public static final int MODIFICATION = 2;
 
@@ -26,7 +26,7 @@ public class EditExerciseRecordPostPanel extends JPanel {
   private JTextArea descriptionTextArea;
   private ButtonGroup privacyStateCheckButtonGroup;
 
-  public EditExerciseRecordPostPanel(
+  public ExerciseRecordPostEditorPanel(
       List<ExercisePlanPost> exercisePlanPosts, ExercisePlanPost exercisePlanPost,
       List<ExerciseRecordPost> exerciseRecordPosts, int mode) {
     this.exercisePlanPosts = exercisePlanPosts;
@@ -39,7 +39,7 @@ public class EditExerciseRecordPostPanel extends JPanel {
       JPanel exercisePlanPostPanel = new ExercisePlanPostPanel(
           exercisePlanPosts, exercisePlanPost, exerciseRecordPosts
       );
-      AerobicExerciseRecords.mainFrame().showContentPanel(exercisePlanPostPanel);
+      AerobicExerciseRecords.mainFrame().replaceContentPanel(exercisePlanPostPanel);
     });
     this.add(backButton);
     this.add(new JLabel(exercisePlanPost.title() + " 결과 기록하기"));
@@ -69,7 +69,7 @@ public class EditExerciseRecordPostPanel extends JPanel {
     this.setVisible(true);
   }
 
-  public EditExerciseRecordPostPanel(
+  public ExerciseRecordPostEditorPanel(
       List<ExercisePlanPost> exercisePlanPosts,
       List<ExerciseRecordPost> exerciseRecordPosts,
       ExerciseRecordPost exerciseRecordPost, int mode) {
@@ -82,7 +82,7 @@ public class EditExerciseRecordPostPanel extends JPanel {
       JPanel exerciseRecordPostPanel = new ExerciseRecordPostPanel(
           exercisePlanPosts, exerciseRecordPosts, exerciseRecordPost
       );
-      AerobicExerciseRecords.mainFrame().showContentPanel(exerciseRecordPostPanel);
+      AerobicExerciseRecords.mainFrame().replaceContentPanel(exerciseRecordPostPanel);
     });
     this.add(backButton);
     this.add(new JLabel(exerciseRecordPost.exercisePlanPost().title() + " 결과 기록하기"));
@@ -249,7 +249,7 @@ public class EditExerciseRecordPostPanel extends JPanel {
       privacyStateCheckButtonGroup.clearSelection();
 //      }
 
-      if (mode == EditExerciseRecordPostPanel.MODIFICATION) {
+      if (mode == ExerciseRecordPostEditorPanel.MODIFICATION) {
 //        restoreCheckButtonGroup(exerciseTimeAchievementCheckButtonGroup, toBeModified.achievedExerciseTime());
 //        restoreCheckButtonGroup(stopoverPointsAchievementCheckButtonGroup, toBeModified.visitedAllStopoverPoints());
 //        restoreCheckButtonGroup(exerciseDistanceAchievementCheckButtonGroup, toBeModified.achievedExerciseDistance());
@@ -274,7 +274,7 @@ public class EditExerciseRecordPostPanel extends JPanel {
         return;
       }
 
-      if (mode == EditExerciseRecordPostPanel.CREATION) {
+      if (mode == ExerciseRecordPostEditorPanel.CREATION) {
         boolean achievedExerciseTime = exerciseTimeAchievementCheckButtonGroup
             .getSelection().getActionCommand().equals("달성");
 
@@ -312,7 +312,7 @@ public class EditExerciseRecordPostPanel extends JPanel {
         }
       }
 
-      if (mode == EditExerciseRecordPostPanel.MODIFICATION) {
+      if (mode == ExerciseRecordPostEditorPanel.MODIFICATION) {
         boolean achievedExerciseTime = exerciseTimeAchievementCheckButtonGroup
             .getSelection().getActionCommand().equals("달성");
 
@@ -350,7 +350,7 @@ public class EditExerciseRecordPostPanel extends JPanel {
       JPanel seeExerciseRecordPostsPanel = new SeeExerciseRecordPostsPanel(
           exercisePlanPosts, exerciseRecordPosts
       );
-      AerobicExerciseRecords.mainFrame().showContentPanel(seeExerciseRecordPostsPanel);
+      AerobicExerciseRecords.mainFrame().replaceContentPanel(seeExerciseRecordPostsPanel);
 
       dialog.showDialog("운동 기록 작성이 완료되었습니다.");
     });

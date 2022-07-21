@@ -19,7 +19,7 @@ public class SeeExercisePlanPostsPanel extends JPanel {
     JButton backButton = new JButton("뒤로가기");
     backButton.addActionListener(event -> {
       JPanel mainMenuPanel = new MainMenuPanel(exercisePlanPosts, exerciseRecordPosts);
-      AerobicExerciseRecords.mainFrame().showContentPanel(mainMenuPanel);
+      AerobicExerciseRecords.mainFrame().replaceContentPanel(mainMenuPanel);
     });
     this.add(backButton);
 
@@ -40,7 +40,7 @@ public class SeeExercisePlanPostsPanel extends JPanel {
             JPanel exercisePlanPostPanel = new ExercisePlanPostPanel(
                 exercisePlanPosts, exercisePlanPost, exerciseRecordPosts
             );
-            AerobicExerciseRecords.mainFrame().showContentPanel(exercisePlanPostPanel);
+            AerobicExerciseRecords.mainFrame().replaceContentPanel(exercisePlanPostPanel);
           }
         });
         postThumbnailPanel.add(titleLabel);

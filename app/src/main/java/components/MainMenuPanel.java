@@ -24,10 +24,10 @@ public class MainMenuPanel extends JPanel {
     editExercisePlanPostButton.setForeground(Color.WHITE);
 
     editExercisePlanPostButton.addActionListener(event -> {
-      JPanel editExercisePlanPostPanel = new EditExercisePlanPostPanel(
-          exercisePlanPosts, exerciseRecordPosts, EditExercisePlanPostPanel.CREATION
+      JPanel exercisePlanPostEditorPanel = new ExercisePlanPostEditorPanel(
+          exercisePlanPosts, exerciseRecordPosts, ExercisePlanPostEditorPanel.CREATION
       );
-      AerobicExerciseRecords.mainFrame().showContentPanel(editExercisePlanPostPanel);
+      AerobicExerciseRecords.mainFrame().replaceContentPanel(exercisePlanPostEditorPanel);
     });
     this.add(editExercisePlanPostButton);
 
@@ -45,7 +45,7 @@ public class MainMenuPanel extends JPanel {
       JPanel seeExercisePlanPostsPanel = new SeeExercisePlanPostsPanel(
           exercisePlanPosts, exerciseRecordPosts
       );
-      AerobicExerciseRecords.mainFrame().showContentPanel(seeExercisePlanPostsPanel);
+      AerobicExerciseRecords.mainFrame().replaceContentPanel(seeExercisePlanPostsPanel);
     });
     this.add(seeExercisePlanPostsButton);
 
@@ -63,7 +63,7 @@ public class MainMenuPanel extends JPanel {
       JPanel seeExerciseRecordPostsPanel = new SeeExerciseRecordPostsPanel(
           exercisePlanPosts, exerciseRecordPosts
       );
-      AerobicExerciseRecords.mainFrame().showContentPanel(seeExerciseRecordPostsPanel);
+      AerobicExerciseRecords.mainFrame().replaceContentPanel(seeExerciseRecordPostsPanel);
     });
     this.add(seeExerciseRecordPostsButton);
 
