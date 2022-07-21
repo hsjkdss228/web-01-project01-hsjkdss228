@@ -16,21 +16,25 @@ public class SeeExercisePlanPostsPanel extends JPanel {
       List<ExerciseRecordPost> exerciseRecordPosts) {
     this.setLayout(new GridLayout(0, 1));
 
-    JPanel postTitlesPanel = new JPanel();
-    postTitlesPanel.setLayout(new GridLayout(0, 1));
-
     JButton backButton = new JButton("뒤로가기");
     backButton.addActionListener(event -> {
       JPanel mainMenuPanel = new MainMenuPanel(exercisePlanPosts, exerciseRecordPosts);
       AerobicExerciseRecords.mainFrame().showContentPanel(mainMenuPanel);
     });
-    postTitlesPanel.add(backButton);
+    this.add(backButton);
+
+    JPanel postThumbnailsPanel = new JPanel();
+    postThumbnailsPanel.setLayout(new GridLayout(0, 1));
 
     for (ExercisePlanPost exercisePlanPost : exercisePlanPosts) {
       if (!exercisePlanPost.deleted()) {
-        JLabel titleThumbnailLabel = new JLabel(exercisePlanPost.title());
-        titleThumbnailLabel.setHorizontalAlignment(JLabel.CENTER);
-        titleThumbnailLabel.addMouseListener(new MouseAdapter() {
+        JPanel postThumbnailPanel = new JPanel();
+
+        postThumbnailPanel.add(new JLabel(exercisePlanPost.exerciseType()));
+
+        JLabel titleLabel = new JLabel(exercisePlanPost.title());
+        titleLabel.setHorizontalAlignment(JLabel.CENTER);
+        titleLabel.addMouseListener(new MouseAdapter() {
           @Override
           public void mouseClicked(MouseEvent e) {
             JPanel exercisePlanPostPanel = new ExercisePlanPostPanel(
@@ -39,11 +43,14 @@ public class SeeExercisePlanPostsPanel extends JPanel {
             AerobicExerciseRecords.mainFrame().showContentPanel(exercisePlanPostPanel);
           }
         });
+        postThumbnailPanel.add(titleLabel);
 
-        postTitlesPanel.add(titleThumbnailLabel);
+        postThumbnailPanel.add(new JLabel(exercisePlanPost.date()));
+
+        postThumbnailsPanel.add(postThumbnailPanel);
       }
     }
 
-    this.add(postTitlesPanel);
+    this.add(postThumbnailsPanel);
   }
 }

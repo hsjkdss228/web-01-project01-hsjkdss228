@@ -61,7 +61,7 @@ public class ExerciseRecordPostPanel extends JPanel {
       boolean visitedStopoverPoint = exerciseRecordPost.visitedStopoverPoints().get(i);
 
       JLabel stopoverPointAchievementLabel = new JLabel(
-          "경유지 " + (i + 1) + stopoverPoint + ": "
+          "경유지 " + (i + 1) + ": " + stopoverPoint + ", "
               + (visitedStopoverPoint ? "달성" : "실패")
       );
       stopoverPointAchievementPanel.add(stopoverPointAchievementLabel);

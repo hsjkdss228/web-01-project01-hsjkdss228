@@ -12,23 +12,29 @@ import java.util.List;
 
 public class SeeExerciseRecordPostsPanel extends JPanel {
   public SeeExerciseRecordPostsPanel(
-      List<ExercisePlanPost> exercisePlanPosts, List<ExerciseRecordPost> exerciseRecordPosts) {
+      List<ExercisePlanPost> exercisePlanPosts,
+      List<ExerciseRecordPost> exerciseRecordPosts) {
     this.setLayout(new GridLayout(0, 1));
-
-    JPanel postTitlesPanel = new JPanel();
-    postTitlesPanel.setLayout(new GridLayout(0, 1));
 
     JButton backButton = new JButton("뒤로가기");
     backButton.addActionListener(event -> {
       JPanel mainMenuPanel = new MainMenuPanel(exercisePlanPosts, exerciseRecordPosts);
       AerobicExerciseRecords.mainFrame().showContentPanel(mainMenuPanel);
     });
-    postTitlesPanel.add(backButton);
+    this.add(backButton);
+
+    JPanel postThumbnailsPanel = new JPanel();
+    postThumbnailsPanel.setLayout(new GridLayout(0, 1));
+
     for (ExerciseRecordPost exerciseRecordPost : exerciseRecordPosts) {
       if (!exerciseRecordPost.deleted()) {
-        JLabel titleThumbnailLabel = new JLabel(exerciseRecordPost.exercisePlanPost().title() + " 운동 결과");
-        titleThumbnailLabel.setHorizontalAlignment(JLabel.CENTER);
-        titleThumbnailLabel.addMouseListener(new MouseAdapter() {
+        JPanel postThumbnailPanel = new JPanel();
+
+        postThumbnailPanel.add(new JLabel(exerciseRecordPost.exercisePlanPost().exerciseType()));
+
+        JLabel titleLabel = new JLabel(exerciseRecordPost.exercisePlanPost().title() + " 운동 결과");
+        titleLabel.setHorizontalAlignment(JLabel.CENTER);
+        titleLabel.addMouseListener(new MouseAdapter() {
           @Override
           public void mouseClicked(MouseEvent e) {
             JPanel exerciseRecordPostPanel = new ExerciseRecordPostPanel(
@@ -37,11 +43,18 @@ public class SeeExerciseRecordPostsPanel extends JPanel {
             AerobicExerciseRecords.mainFrame().showContentPanel(exerciseRecordPostPanel);
           }
         });
+        postThumbnailPanel.add(titleLabel);
 
-        postTitlesPanel.add(titleThumbnailLabel);
+        postThumbnailPanel.add(
+            new JLabel(exerciseRecordPost.finalResult() ? "성공" : "실패")
+        );
+
+        postThumbnailPanel.add(new JLabel(exerciseRecordPost.exercisePlanPost().date()));
+
+        postThumbnailsPanel.add(postThumbnailPanel);
       }
     }
 
-    this.add(postTitlesPanel);
+    this.add(postThumbnailsPanel);
   }
 }
