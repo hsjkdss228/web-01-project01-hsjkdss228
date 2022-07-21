@@ -63,6 +63,7 @@ public class ExercisePlanPostPanel extends JPanel {
 
     JPanel buttonsPanel = new JPanel();
     buttonsPanel.setLayout(new GridLayout(1, 3));
+
     JButton modifyButton = new JButton("수정하기");
     modifyButton.addActionListener(event -> {
       JPanel editExercisePlanPostPanel = new EditExercisePlanPostPanel(
@@ -71,6 +72,7 @@ public class ExercisePlanPostPanel extends JPanel {
       AerobicExerciseRecords.mainFrame().showContentPanel(editExercisePlanPostPanel);
     });
     buttonsPanel.add(modifyButton);
+
     JButton deleteButton = new JButton("삭제하기");
     deleteButton.addActionListener(event -> {
       for (ExercisePlanPost found : exercisePlanPosts) {
@@ -79,12 +81,18 @@ public class ExercisePlanPostPanel extends JPanel {
           break;
         }
       }
+
+      NotificationDialog dialog = new NotificationDialog();
+
       JPanel seeExercisePlanPostsPanel = new SeeExercisePlanPostsPanel(
           exercisePlanPosts, exerciseRecordPosts
       );
       AerobicExerciseRecords.mainFrame().showContentPanel(seeExercisePlanPostsPanel);
+
+      dialog.showDialog("운동 계획 삭제가 완료되었습니다.");
     });
     buttonsPanel.add(deleteButton);
+
     JButton createExerciseRecordPostButton = new JButton("결과 기록하기");
     createExerciseRecordPostButton.addActionListener(event -> {
       JPanel editExerciseRecordPostPanel = new EditExerciseRecordPostPanel(

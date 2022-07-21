@@ -76,7 +76,7 @@ public class ExercisePlanPost {
   }
 
   public List<String> stopoverPoints() {
-    return stopoverPoints;
+    return new ArrayList<>(stopoverPoints);
   }
 
   public String exerciseDistance() {
