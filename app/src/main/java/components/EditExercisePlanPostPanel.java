@@ -7,11 +7,14 @@ import models.ExerciseRecordPost;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 
 public class EditExercisePlanPostPanel extends JPanel {
   public static final int CREATION = 1;
   public static final int MODIFICATION = 2;
+
+  NotificationDialog dialog = new NotificationDialog();
 
   List<ExercisePlanPost> exercisePlanPosts;
 
@@ -239,11 +242,24 @@ public class EditExercisePlanPostPanel extends JPanel {
         exerciseDistanceTextField.setText(toBeModified.exerciseDistance());
         descriptionTextArea.setText(toBeModified.description());
       }
+
+      dialog.showDialog("초기화 되었습니다.");
     });
     buttonsPanel.add(cancelButton, BorderLayout.WEST);
 
     JButton registerButton = new JButton("등록하기");
     registerButton.addActionListener(event -> {
+      if (titleTextField.getText().equals("")
+          || dateTextField.getText().equals("")
+          || notSelectedExerciseType()
+          || exerciseTimeTextField.getText().equals("")
+          || notAddedStopoverPoints()
+          || exerciseDistanceTextField.getText().equals("")
+          || descriptionTextArea.getText().equals("")) {
+        dialog.showDialog("입력되지 않은 값이 있습니다.");
+        return;
+      }
+
       if (mode == EditExercisePlanPostPanel.CREATION) {
         ExercisePlanPost exercisePlanPost = new ExercisePlanPost(
             titleTextField.getText(),
@@ -276,8 +292,28 @@ public class EditExercisePlanPostPanel extends JPanel {
 
       JPanel mainMenuPanel = new MainMenuPanel(exercisePlanPosts, exerciseRecordPosts);
       AerobicExerciseRecords.mainFrame().showContentPanel(mainMenuPanel);
+
+      dialog.showDialog("운동 계획 작성이 완료되었습니다.");
     });
     buttonsPanel.add(registerButton, BorderLayout.EAST);
     this.add(buttonsPanel);
+  }
+
+  public boolean notSelectedExerciseType() {
+    Enumeration<AbstractButton> buttons = exerciseTypeButtonGroup.getElements();
+
+    while (buttons.hasMoreElements()) {
+      AbstractButton button = buttons.nextElement();
+
+      if (button.isSelected()) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  public boolean notAddedStopoverPoints() {
+    return stopoverPoints.isEmpty();
   }
 }

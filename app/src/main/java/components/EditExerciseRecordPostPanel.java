@@ -7,11 +7,14 @@ import models.ExerciseRecordPost;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 
 public class EditExerciseRecordPostPanel extends JPanel {
   public static final int CREATION = 1;
   public static final int MODIFICATION = 2;
+
+  NotificationDialog dialog = new NotificationDialog();
 
   List<ExercisePlanPost> exercisePlanPosts;
   List<ExerciseRecordPost> exerciseRecordPosts;
@@ -254,11 +257,23 @@ public class EditExerciseRecordPostPanel extends JPanel {
         descriptionTextArea.setText(toBeModified.description());
 //        restoreCheckButtonGroup(privacyStateCheckButtonGroup, toBeModified.isPublicPost());
       }
+
+      dialog.showDialog("초기화 되었습니다.");
     });
     buttonsPanel.add(cancelButton, BorderLayout.WEST);
 
     JButton registerButton = new JButton("등록하기");
     registerButton.addActionListener(event -> {
+      if (notSelectedButtonGroup(exerciseTimeAchievementCheckButtonGroup)
+          || notSelectedButtonGroup(exerciseDistanceAchievementCheckButtonGroup)
+          || notSelectedButtonGroups(stopoverPointsAchievementCheckButtonGroups)
+          || notSelectedButtonGroup(finalResultCheckButtonGroup)
+          || descriptionTextArea.getText().equals("")
+          || notSelectedButtonGroup(privacyStateCheckButtonGroup)) {
+        dialog.showDialog("입력되지 않은 값이 있습니다.");
+        return;
+      }
+
       if (mode == EditExerciseRecordPostPanel.CREATION) {
         boolean achievedExerciseTime = exerciseTimeAchievementCheckButtonGroup
             .getSelection().getActionCommand().equals("달성");
@@ -295,9 +310,6 @@ public class EditExerciseRecordPostPanel extends JPanel {
             break;
           }
         }
-
-        JPanel mainMenuPanel = new MainMenuPanel(exercisePlanPosts, exerciseRecordPosts);
-        AerobicExerciseRecords.mainFrame().showContentPanel(mainMenuPanel);
       }
 
       if (mode == EditExerciseRecordPostPanel.MODIFICATION) {
@@ -333,16 +345,42 @@ public class EditExerciseRecordPostPanel extends JPanel {
             break;
           }
         }
-
-        JPanel seeExerciseRecordPostsPanel = new SeeExerciseRecordPostsPanel(
-            exercisePlanPosts, exerciseRecordPosts
-        );
-        AerobicExerciseRecords.mainFrame().showContentPanel(seeExerciseRecordPostsPanel);
       }
+
+      JPanel seeExerciseRecordPostsPanel = new SeeExerciseRecordPostsPanel(
+          exercisePlanPosts, exerciseRecordPosts
+      );
+      AerobicExerciseRecords.mainFrame().showContentPanel(seeExerciseRecordPostsPanel);
+
+      dialog.showDialog("운동 기록 작성이 완료되었습니다.");
     });
     buttonsPanel.add(registerButton, BorderLayout.EAST);
 
     this.add(buttonsPanel);
+  }
+
+  public boolean notSelectedButtonGroup(ButtonGroup buttonGroup) {
+    Enumeration<AbstractButton> buttons = buttonGroup.getElements();
+
+    while (buttons.hasMoreElements()) {
+      AbstractButton button = buttons.nextElement();
+
+      if (button.isSelected()) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  public boolean notSelectedButtonGroups(List<ButtonGroup> buttonGroups) {
+    for (ButtonGroup buttonGroup : buttonGroups) {
+      if (notSelectedButtonGroup(buttonGroup)) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
 //  public void restoreCheckButtonGroup(ButtonGroup buttonGroup, boolean checked) {

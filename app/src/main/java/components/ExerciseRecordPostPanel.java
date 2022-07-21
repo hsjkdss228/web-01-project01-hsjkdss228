@@ -118,10 +118,14 @@ public class ExerciseRecordPostPanel extends JPanel {
         }
       }
 
+      NotificationDialog dialog = new NotificationDialog();
+
       JPanel seeExerciseRecordPostsPanel = new SeeExerciseRecordPostsPanel(
           exercisePlanPosts, exerciseRecordPosts
       );
       AerobicExerciseRecords.mainFrame().showContentPanel(seeExerciseRecordPostsPanel);
+
+      dialog.showDialog("운동 계획 삭제가 완료되었습니다.");
     });
     buttonsPanel.add(deleteButton);
     this.add(buttonsPanel);

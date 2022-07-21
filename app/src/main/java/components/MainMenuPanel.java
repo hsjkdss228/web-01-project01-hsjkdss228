@@ -6,7 +6,6 @@ import models.ExerciseRecordPost;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
 import java.util.List;
 
 public class MainMenuPanel extends JPanel {
