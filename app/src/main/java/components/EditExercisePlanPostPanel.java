@@ -227,8 +227,6 @@ public class EditExercisePlanPostPanel extends JPanel {
       }
 
       if (mode == EditExercisePlanPostPanel.MODIFICATION) {
-        //TODO: 수정 모드에서 초기화 버튼 누르면 운동 타입이 원래 선택되어 있던 것으로
-        // 리셋해줄 수 있었으면 좋겠음, 근데 ㄱㄴ? editor랑 modifier를 분리해야 할 수도?
         titleTextField.setText(toBeModified.title());
         dateTextField.setText(toBeModified.date());
         exerciseTypeButtonGroup.clearSelection();

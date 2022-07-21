@@ -19,8 +19,7 @@ public class MainFrame extends JFrame {
       List<ExerciseRecordPost> exerciseRecordPosts, FileLoader fileLoader) {
     this.setTitle("유산소 운동 계획 및 기록 프로그램");
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    this.setSize(1000, 500);
-    this.setLocation(75, 70);
+    this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
     this.addWindowListener(new WindowAdapter() {
       @Override
