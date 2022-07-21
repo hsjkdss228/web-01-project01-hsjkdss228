@@ -11,46 +11,106 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 
 public class ExercisePlanPostsBoardPanel extends JPanel {
+  private JPanel headerPanel;
+  private JPanel postsPanel;
+
   public ExercisePlanPostsBoardPanel(
       List<ExercisePlanPost> exercisePlanPosts,
       List<ExerciseRecordPost> exerciseRecordPosts) {
-    this.setLayout(new GridLayout(0, 1));
+    this.setLayout(new BorderLayout());
 
-    JButton backButton = new JButton("뒤로가기");
-    backButton.addActionListener(event -> {
+    initHeaderPanel(exercisePlanPosts, exerciseRecordPosts);
+
+    JPanel mainPanel = new JPanel();
+    mainPanel.setLayout(new GridLayout(1, 3));
+    mainPanel.add(new JPanel());
+
+    postsPanel = new JPanel();
+
+    createPostThumbnailPanels(exercisePlanPosts, exerciseRecordPosts);
+
+    mainPanel.add(postsPanel);
+    mainPanel.add(new JPanel());
+
+    this.add(mainPanel);
+  }
+
+  public void initHeaderPanel(
+      List<ExercisePlanPost> exercisePlanPosts,
+      List<ExerciseRecordPost> exerciseRecordPosts) {
+    headerPanel = new JPanel();
+    headerPanel.setLayout(new BorderLayout());
+
+    createGoBackButton(exercisePlanPosts, exerciseRecordPosts);
+
+    this.add(headerPanel, BorderLayout.PAGE_START);
+  }
+
+  public void createGoBackButton(
+      List<ExercisePlanPost> exercisePlanPosts,
+      List<ExerciseRecordPost> exerciseRecordPosts) {
+    JButton goBackButton = new JButton("뒤로가기");
+
+    goBackButton.addActionListener(event -> {
       JPanel mainMenuPanel = new MainMenuPanel(exercisePlanPosts, exerciseRecordPosts);
       AerobicExerciseRecords.mainFrame().replaceContentPanel(mainMenuPanel);
     });
-    this.add(backButton);
 
+    headerPanel.add(goBackButton, BorderLayout.WEST);
+  }
+
+  private void createPostThumbnailPanels(
+      List<ExercisePlanPost> exercisePlanPosts,
+      List<ExerciseRecordPost> exerciseRecordPosts) {
     JPanel postThumbnailsPanel = new JPanel();
     postThumbnailsPanel.setLayout(new GridLayout(0, 1));
+
+    JLabel subjectLabel = new JLabel("운동 계획 보기");
+    subjectLabel.setHorizontalAlignment(JLabel.CENTER);
+    subjectLabel.setFont(new Font("", Font.ITALIC, 30));
+
+    postThumbnailsPanel.add(subjectLabel);
+    postThumbnailsPanel.add(new JLabel());
 
     for (ExercisePlanPost exercisePlanPost : exercisePlanPosts) {
       if (!exercisePlanPost.deleted()) {
         JPanel postThumbnailPanel = new JPanel();
-
-        postThumbnailPanel.add(new JLabel(exercisePlanPost.exerciseType()));
-
-        JLabel titleLabel = new JLabel(exercisePlanPost.title());
-        titleLabel.setHorizontalAlignment(JLabel.CENTER);
-        titleLabel.addMouseListener(new MouseAdapter() {
+        postThumbnailPanel.addMouseListener(new MouseAdapter() {
           @Override
-          public void mouseClicked(MouseEvent e) {
+          public void mouseClicked(MouseEvent event) {
             JPanel exercisePlanPostPanel = new ExercisePlanPostPanel(
                 exercisePlanPosts, exercisePlanPost, exerciseRecordPosts
             );
             AerobicExerciseRecords.mainFrame().replaceContentPanel(exercisePlanPostPanel);
           }
         });
-        postThumbnailPanel.add(titleLabel);
 
-        postThumbnailPanel.add(new JLabel(exercisePlanPost.date()));
+        switch (exercisePlanPost.exerciseType()) {
+          case "걷기" -> postThumbnailPanel.add(new JLabel(
+              new ImageIcon("data/icons/walking-icon.png")
+          ));
+          case "달리기" -> postThumbnailPanel.add(new JLabel(
+              new ImageIcon("data/icons/running-icon.png")
+          ));
+          case "자전거" -> postThumbnailPanel.add(new JLabel(
+              new ImageIcon("data/icons/cycling-icon.png")
+          ));
+          case "등산" -> postThumbnailPanel.add(new JLabel(
+              new ImageIcon("data/icons/hiking-icon.png")
+          ));
+        }
+
+        JLabel postThumbnailTitleLabel = new JLabel(
+            "      " + exercisePlanPost.title()
+                + "      " + exercisePlanPost.date()
+        );
+        postThumbnailTitleLabel.setFont(new Font("", Font.PLAIN, 25));
+        postThumbnailPanel.add(postThumbnailTitleLabel);
 
         postThumbnailsPanel.add(postThumbnailPanel);
       }
     }
 
-    this.add(postThumbnailsPanel);
+    postsPanel.add(postThumbnailsPanel);
   }
 }
