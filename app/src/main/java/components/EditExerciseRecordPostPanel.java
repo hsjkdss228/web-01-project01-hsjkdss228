@@ -40,8 +40,21 @@ public class EditExerciseRecordPostPanel extends JPanel {
     });
     this.add(backButton);
     this.add(new JLabel(exercisePlanPost.title() + " 결과 기록하기"));
-    this.add(new JLabel("날짜: " + exercisePlanPost.date()));
-    this.add(new JLabel("운동 종류: " + exercisePlanPost.exerciseType()));
+    this.add(new JLabel("계획 날짜: " + exercisePlanPost.date()));
+    this.add(new JLabel("계획 운동 종류: " + exercisePlanPost.exerciseType()));
+
+    JPanel descriptionPanel = new JPanel();
+    descriptionPanel.add(new JLabel("계획 상세 설명: "));
+    descriptionTextArea = new JTextArea(exercisePlanPost.description());
+    descriptionTextArea.setColumns(20);
+    descriptionTextArea.setRows(2);
+    descriptionTextArea.setLineWrap(true);
+    descriptionTextArea.setEditable(false);
+    JScrollPane scrollPane = new JScrollPane(descriptionTextArea);
+    scrollPane.createVerticalScrollBar();
+    descriptionPanel.add(scrollPane);
+    this.add(descriptionPanel);
+
     createExerciseTimeAchievementCheckPanel(exercisePlanPost.exerciseTime());
     createStopoverPointsAchievementCheckPanel(exercisePlanPost.stopoverPoints());
     createExerciseDistanceAchievementsCheckPanel(exercisePlanPost.exerciseDistance());
@@ -70,8 +83,21 @@ public class EditExerciseRecordPostPanel extends JPanel {
     });
     this.add(backButton);
     this.add(new JLabel(exerciseRecordPost.exercisePlanPost().title() + " 결과 기록하기"));
-    this.add(new JLabel("날짜: " + exerciseRecordPost.exercisePlanPost().date()));
-    this.add(new JLabel("운동 종류: " + exerciseRecordPost.exercisePlanPost().exerciseType()));
+    this.add(new JLabel("계획 날짜: " + exerciseRecordPost.exercisePlanPost().date()));
+    this.add(new JLabel("계획 운동 종류: " + exerciseRecordPost.exercisePlanPost().exerciseType()));
+
+    JPanel descriptionPanel = new JPanel();
+    descriptionPanel.add(new JLabel("계획 상세 설명: "));
+    descriptionTextArea = new JTextArea(exerciseRecordPost.exercisePlanPost().description());
+    descriptionTextArea.setColumns(20);
+    descriptionTextArea.setRows(2);
+    descriptionTextArea.setLineWrap(true);
+    descriptionTextArea.setEditable(false);
+    JScrollPane scrollPane = new JScrollPane(descriptionTextArea);
+    scrollPane.createVerticalScrollBar();
+    descriptionPanel.add(scrollPane);
+    this.add(descriptionPanel);
+
     createExerciseTimeAchievementCheckPanel(exerciseRecordPost.exercisePlanPost().exerciseTime());
     createStopoverPointsAchievementCheckPanel(exerciseRecordPost.exercisePlanPost().stopoverPoints());
     createExerciseDistanceAchievementsCheckPanel(exerciseRecordPost.exercisePlanPost().exerciseDistance());
