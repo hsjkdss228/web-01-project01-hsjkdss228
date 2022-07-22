@@ -53,6 +53,7 @@ public class ExercisePlanPostsBoardPanel extends JPanel {
 
     goBackButton.addActionListener(event -> {
       JPanel mainMenuPanel = new MainMenuPanel(exercisePlanPosts, exerciseRecordPosts);
+
       AerobicExerciseRecords.mainFrame().replaceContentPanel(mainMenuPanel);
     });
 
@@ -68,7 +69,6 @@ public class ExercisePlanPostsBoardPanel extends JPanel {
     JLabel subjectLabel = new JLabel("운동 계획 보기");
     subjectLabel.setHorizontalAlignment(JLabel.CENTER);
     subjectLabel.setFont(new Font("", Font.ITALIC, 30));
-
     postThumbnailsPanel.add(subjectLabel);
     postThumbnailsPanel.add(new JLabel());
 
@@ -81,6 +81,7 @@ public class ExercisePlanPostsBoardPanel extends JPanel {
             JPanel exercisePlanPostPanel = new ExercisePlanPostPanel(
                 exercisePlanPosts, exercisePlanPost, exerciseRecordPosts
             );
+
             AerobicExerciseRecords.mainFrame().replaceContentPanel(exercisePlanPostPanel);
           }
         });

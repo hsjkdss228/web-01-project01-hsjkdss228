@@ -68,6 +68,7 @@ public class ExercisePlanPostPanel extends JPanel {
       JPanel seeExercisePlanPostsPanel = new ExercisePlanPostsBoardPanel(
           exercisePlanPosts, exerciseRecordPosts
       );
+
       AerobicExerciseRecords.mainFrame().replaceContentPanel(seeExercisePlanPostsPanel);
     });
 
@@ -224,6 +225,7 @@ public class ExercisePlanPostPanel extends JPanel {
           exercisePlanPosts, exercisePlanPost, exerciseRecordPosts,
           ExercisePlanPostEditorPanel.MODIFICATION
       );
+
       AerobicExerciseRecords.mainFrame().replaceContentPanel(exercisePlanPostEditorPanel);
     });
 
@@ -242,6 +244,7 @@ public class ExercisePlanPostPanel extends JPanel {
       JPanel exercisePlanPostsBoardPanel = new ExercisePlanPostsBoardPanel(
           exercisePlanPosts, exerciseRecordPosts
       );
+
       AerobicExerciseRecords.mainFrame().replaceContentPanel(exercisePlanPostsBoardPanel);
 
       dialog.showDialog("운동 계획 삭제가 완료되었습니다.");
@@ -261,6 +264,7 @@ public class ExercisePlanPostPanel extends JPanel {
           exercisePlanPosts, exercisePlanPost, exerciseRecordPosts,
           ExerciseRecordPostEditorPanel.CREATION
       );
+
       AerobicExerciseRecords.mainFrame().replaceContentPanel(exerciseRecordPostEditorPanel);
     });
 

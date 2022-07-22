@@ -98,12 +98,10 @@ public class FileLoader {
       boolean finalResult = Boolean.parseBoolean(components[5]);
       String description = components[6];
 
-      boolean isPublicPost = Boolean.parseBoolean(components[7]);
-
       ExerciseRecordPost exerciseRecordPost = new ExerciseRecordPost(
           exercisePlanPost, uniqueNumber, deleted,
           achievedExerciseTime, visitedStopoverPoints, achievedExerciseDistance,
-          finalResult, description, isPublicPost
+          finalResult, description
       );
 
       exerciseRecordPosts.add(exerciseRecordPost);
@@ -168,8 +166,7 @@ public class FileLoader {
           + visitedStopoverPointsAfterJoining + ","
           + exerciseRecordPost.achievedExerciseDistance() + ","
           + exerciseRecordPost.finalResult() + ","
-          + exerciseRecordPost.description() + ","
-          + exerciseRecordPost.isPublicPost() + "\n";
+          + exerciseRecordPost.description() + "\n";
 
       fileWriter.write(line);
     }

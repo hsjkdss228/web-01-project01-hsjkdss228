@@ -65,13 +65,15 @@ public class ExercisePlanPostEditorPanel extends JPanel {
   }
 
   public ExercisePlanPostEditorPanel(
-      List<ExercisePlanPost> exercisePlanPosts, ExercisePlanPost exercisePlanPost,
-      List<ExerciseRecordPost> exerciseRecordPosts, int modification) {
+      List<ExercisePlanPost> exercisePlanPosts,
+      ExercisePlanPost exercisePlanPost,
+      List<ExerciseRecordPost> exerciseRecordPosts,
+      int modification) {
     this.exercisePlanPosts = exercisePlanPosts;
 
     this.setLayout(new BorderLayout());
 
-    initHeaderPanel(exercisePlanPosts, exerciseRecordPosts);
+    initHeaderPanel(exercisePlanPosts, exercisePlanPost, exerciseRecordPosts);
 
     JPanel mainPanel = new JPanel();
     mainPanel.setLayout(new GridLayout(1, 3));
@@ -115,7 +117,37 @@ public class ExercisePlanPostEditorPanel extends JPanel {
 
     goBackButton.addActionListener(event -> {
       JPanel mainMenuPanel = new MainMenuPanel(exercisePlanPosts, exerciseRecordPosts);
+
       AerobicExerciseRecords.mainFrame().replaceContentPanel(mainMenuPanel);
+    });
+
+    headerPanel.add(goBackButton, BorderLayout.WEST);
+  }
+
+  public void initHeaderPanel(
+      List<ExercisePlanPost> exercisePlanPosts,
+      ExercisePlanPost exercisePlanPost,
+      List<ExerciseRecordPost> exerciseRecordPosts) {
+    headerPanel = new JPanel();
+    headerPanel.setLayout(new BorderLayout());
+
+    createGoBackButton(exercisePlanPosts, exercisePlanPost, exerciseRecordPosts);
+
+    this.add(headerPanel, BorderLayout.PAGE_START);
+  }
+
+  public void createGoBackButton(
+      List<ExercisePlanPost> exercisePlanPosts,
+      ExercisePlanPost exercisePlanPost,
+      List<ExerciseRecordPost> exerciseRecordPosts) {
+    JButton goBackButton = new JButton("뒤로가기");
+
+    goBackButton.addActionListener(event -> {
+      JPanel exercisePlanPostPanel = new ExercisePlanPostPanel(
+          exercisePlanPosts, exercisePlanPost, exerciseRecordPosts
+      );
+
+      AerobicExerciseRecords.mainFrame().replaceContentPanel(exercisePlanPostPanel);
     });
 
     headerPanel.add(goBackButton, BorderLayout.WEST);
@@ -309,6 +341,7 @@ public class ExercisePlanPostEditorPanel extends JPanel {
       }
 
       JPanel mainMenuPanel = new MainMenuPanel(exercisePlanPosts, exerciseRecordPosts);
+
       AerobicExerciseRecords.mainFrame().replaceContentPanel(mainMenuPanel);
 
       dialog.showDialog("운동 계획 작성이 완료되었습니다.");

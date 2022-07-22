@@ -14,13 +14,11 @@ public class ExerciseRecordPost {
   private boolean finalResult;
   private String description;
 
-  private boolean isPublicPost;
-
   public ExerciseRecordPost(
       ExercisePlanPost exercisePlanPost,
       boolean achievedExerciseTime, List<Boolean> visitedStopoverPoints,
       boolean achievedExerciseDistance, boolean finalResult,
-      String description, boolean isPublicPost) {
+      String description) {
     this.exercisePlanPost = exercisePlanPost;
 
     this.uniqueNumber = this.exercisePlanPost.uniqueNumber();
@@ -31,15 +29,13 @@ public class ExerciseRecordPost {
     this.achievedExerciseDistance = achievedExerciseDistance;
     this.finalResult = finalResult;
     this.description = description;
-
-    this.isPublicPost = isPublicPost;
   }
 
   public ExerciseRecordPost(
       ExercisePlanPost exercisePlanPost, int uniqueNumber, boolean deleted,
       boolean achievedExerciseTime, List<Boolean> visitedStopoverPoints,
       boolean achievedExerciseDistance, boolean finalResult,
-      String description, boolean isPublicPost) {
+      String description) {
     this.exercisePlanPost = exercisePlanPost;
 
     this.uniqueNumber = uniqueNumber;
@@ -50,8 +46,6 @@ public class ExerciseRecordPost {
     this.achievedExerciseDistance = achievedExerciseDistance;
     this.finalResult = finalResult;
     this.description = description;
-
-    this.isPublicPost = isPublicPost;
   }
 
   public ExercisePlanPost exercisePlanPost() {
@@ -86,10 +80,6 @@ public class ExerciseRecordPost {
     return description;
   }
 
-  public boolean isPublicPost() {
-    return isPublicPost;
-  }
-
   public void delete() {
     deleted = true;
   }
@@ -112,9 +102,5 @@ public class ExerciseRecordPost {
 
   public void modifyDescription(String description) {
     this.description = description;
-  }
-
-  public void modifyPrivacyOfPost(boolean isPublicPost) {
-    this.isPublicPost = isPublicPost;
   }
 }

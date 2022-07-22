@@ -66,11 +66,5 @@ public class MainMenuPanel extends JPanel {
       AerobicExerciseRecords.mainFrame().replaceContentPanel(seeExerciseRecordPostsPanel);
     });
     this.add(seeExerciseRecordPostsButton);
-
-//    JButton seeOtherExercisePlanPostsButton = new JButton("다른 사람의 운동 기록 보기");
-//    seeOtherExercisePlanPostsButton.addActionListener(event -> {
-//
-//    });
-//    buttonsPanel.add(seeOtherExercisePlanPostsButton);
   }
 }
