@@ -1,6 +1,5 @@
 package components;
 
-import application.AerobicExerciseRecords;
 import models.ExercisePlanPost;
 import models.ExerciseRecordPost;
 import utils.FileLoader;
@@ -35,10 +34,10 @@ public class MainFrame extends JFrame {
     });
 
     JPanel mainMenuPanel = new MainMenuPanel(exercisePlanPosts, exerciseRecordPosts);
-    showContentPanel(mainMenuPanel);
+    replaceContentPanel(mainMenuPanel);
   }
 
-  public void showContentPanel(JPanel panel) {
+  public void replaceContentPanel(JPanel panel) {
     contentPanel.removeAll();
     contentPanel = panel;
     this.add(contentPanel);

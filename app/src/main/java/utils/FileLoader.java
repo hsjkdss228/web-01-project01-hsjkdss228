@@ -14,7 +14,7 @@ import java.util.Scanner;
 
 public class FileLoader {
   public int loadCurrentUniqueNumberCount() throws FileNotFoundException {
-    File file = new File("data/unique-number-count.csv");
+    File file = new File("data/posts/unique-number-count.csv");
 
     Scanner scanner = new Scanner(file);
 
@@ -22,7 +22,7 @@ public class FileLoader {
   }
 
   public List<ExercisePlanPost> loadExercisePlanPosts() throws FileNotFoundException {
-    File file = new File("data/exercise-plan-posts.csv");
+    File file = new File("data/posts/exercise-plan-posts.csv");
 
     Scanner scanner = new Scanner(file);
 
@@ -62,7 +62,7 @@ public class FileLoader {
 
   public List<ExerciseRecordPost> loadExerciseRecordPosts(
       List<ExercisePlanPost> exercisePlanPosts) throws FileNotFoundException {
-    File file = new File("data/exercise-record-posts.csv");
+    File file = new File("data/posts/exercise-record-posts.csv");
 
     Scanner scanner = new Scanner(file);
 
@@ -98,12 +98,10 @@ public class FileLoader {
       boolean finalResult = Boolean.parseBoolean(components[5]);
       String description = components[6];
 
-      boolean isPublicPost = Boolean.parseBoolean(components[7]);
-
       ExerciseRecordPost exerciseRecordPost = new ExerciseRecordPost(
           exercisePlanPost, uniqueNumber, deleted,
           achievedExerciseTime, visitedStopoverPoints, achievedExerciseDistance,
-          finalResult, description, isPublicPost
+          finalResult, description
       );
 
       exerciseRecordPosts.add(exerciseRecordPost);
@@ -113,7 +111,7 @@ public class FileLoader {
   }
 
   public void saveCurrentUniqueNumberCount() throws IOException {
-    FileWriter fileWriter = new FileWriter("data/unique-number-count.csv");
+    FileWriter fileWriter = new FileWriter("data/posts/unique-number-count.csv");
 
     String uniqueNumberCount = Integer.toString(UniqueNumberManager.uniqueNumberCount());
 
@@ -124,7 +122,7 @@ public class FileLoader {
 
   public void saveExercisePlanPosts(
       List<ExercisePlanPost> exercisePlanPosts) throws IOException {
-    FileWriter fileWriter = new FileWriter("data/exercise-plan-posts.csv");
+    FileWriter fileWriter = new FileWriter("data/posts/exercise-plan-posts.csv");
 
     for (ExercisePlanPost exercisePlanPost : exercisePlanPosts) {
       String line = exercisePlanPost.uniqueNumber() + ","
@@ -147,7 +145,7 @@ public class FileLoader {
 
   public void saveExerciseRecordPosts
       (List<ExerciseRecordPost> exerciseRecordPosts) throws IOException {
-    FileWriter fileWriter = new FileWriter("data/exercise-record-posts.csv");
+    FileWriter fileWriter = new FileWriter("data/posts/exercise-record-posts.csv");
 
     for (ExerciseRecordPost exerciseRecordPost : exerciseRecordPosts) {
       List<Boolean> visitedStopoverPoints = exerciseRecordPost.visitedStopoverPoints();
@@ -168,8 +166,7 @@ public class FileLoader {
           + visitedStopoverPointsAfterJoining + ","
           + exerciseRecordPost.achievedExerciseDistance() + ","
           + exerciseRecordPost.finalResult() + ","
-          + exerciseRecordPost.description() + ","
-          + exerciseRecordPost.isPublicPost() + "\n";
+          + exerciseRecordPost.description() + "\n";
 
       fileWriter.write(line);
     }

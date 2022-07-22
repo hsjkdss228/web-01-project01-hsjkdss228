@@ -24,10 +24,10 @@ public class MainMenuPanel extends JPanel {
     editExercisePlanPostButton.setForeground(Color.WHITE);
 
     editExercisePlanPostButton.addActionListener(event -> {
-      JPanel editExercisePlanPostPanel = new EditExercisePlanPostPanel(
-          exercisePlanPosts, exerciseRecordPosts, EditExercisePlanPostPanel.CREATION
+      JPanel exercisePlanPostEditorPanel = new ExercisePlanPostEditorPanel(
+          exercisePlanPosts, exerciseRecordPosts, ExercisePlanPostEditorPanel.CREATION
       );
-      AerobicExerciseRecords.mainFrame().showContentPanel(editExercisePlanPostPanel);
+      AerobicExerciseRecords.mainFrame().replaceContentPanel(exercisePlanPostEditorPanel);
     });
     this.add(editExercisePlanPostButton);
 
@@ -42,10 +42,10 @@ public class MainMenuPanel extends JPanel {
     seeExercisePlanPostsButton.setForeground(Color.WHITE);
 
     seeExercisePlanPostsButton.addActionListener(event -> {
-      JPanel seeExercisePlanPostsPanel = new SeeExercisePlanPostsPanel(
+      JPanel seeExercisePlanPostsPanel = new ExercisePlanPostsBoardPanel(
           exercisePlanPosts, exerciseRecordPosts
       );
-      AerobicExerciseRecords.mainFrame().showContentPanel(seeExercisePlanPostsPanel);
+      AerobicExerciseRecords.mainFrame().replaceContentPanel(seeExercisePlanPostsPanel);
     });
     this.add(seeExercisePlanPostsButton);
 
@@ -60,17 +60,11 @@ public class MainMenuPanel extends JPanel {
     seeExerciseRecordPostsButton.setForeground(Color.WHITE);
 
     seeExerciseRecordPostsButton.addActionListener(event -> {
-      JPanel seeExerciseRecordPostsPanel = new SeeExerciseRecordPostsPanel(
+      JPanel seeExerciseRecordPostsPanel = new ExerciseRecordPostsBoardPanel(
           exercisePlanPosts, exerciseRecordPosts
       );
-      AerobicExerciseRecords.mainFrame().showContentPanel(seeExerciseRecordPostsPanel);
+      AerobicExerciseRecords.mainFrame().replaceContentPanel(seeExerciseRecordPostsPanel);
     });
     this.add(seeExerciseRecordPostsButton);
-
-//    JButton seeOtherExercisePlanPostsButton = new JButton("다른 사람의 운동 기록 보기");
-//    seeOtherExercisePlanPostsButton.addActionListener(event -> {
-//
-//    });
-//    buttonsPanel.add(seeOtherExercisePlanPostsButton);
   }
 }
